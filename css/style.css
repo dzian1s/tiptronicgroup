@@ -4,8 +4,9 @@
   --card-2: #1a1a1a;
   --text: #f5f5f5;
   --muted: #b8b8b8;
-  --accent: #d4af37;
-  --accent-hover: #b9962f;
+  --accent: #ffd400;
+  --accent-hover: #e6bf00;
+  --accent-text: #111111;
   --line: #2a2a2a;
   --success: #28c76f;
   --danger: #ff6b6b;
@@ -91,7 +92,7 @@ a {
 
 .btn-primary {
   background: var(--accent);
-  color: white;
+  color: var(--accent-text);
   box-shadow: var(--shadow);
 }
 
@@ -598,8 +599,8 @@ textarea {
 }
 
 .request-tab.active {
-  background: #f5c400;
-  color: #111;
+  background: var(--accent);
+  color: var(--accent-text);
 }
 
 .request-panel {
@@ -704,4 +705,13 @@ textarea {
   .request-form .btn {
     width: 100%;
   }
+}
+
+.info-card a {
+  color: #f5c400;
+  text-decoration: none;
+}
+
+.info-card a:hover {
+  text-decoration: underline;
 }
