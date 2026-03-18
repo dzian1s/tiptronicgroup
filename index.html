@@ -12,7 +12,7 @@
     <div class="container nav-inner">
      <a href="#top" class="brand">
          <span class="brand-logo">
-         <img src="assets/images/logoBlackBc.png" alt="Your Brand logo" />
+         <img src="assets/images/carClear.png" alt="Your Brand logo" />
          </span>
          <span>Tiptronic Group</span>
     </a>
@@ -29,11 +29,10 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <div class="badge"></div>
-          <h1>Simple product ordering<br />with a clear and professional flow</h1>
+          
+          <h1>Automatic Transmission Parts</h1>
           <p>
-            This website helps customers browse selected products, send an order request, and contact you quickly.
-            It works as a clean and trustworthy landing page for your business before you build a larger store.
+             Ask for selected parts, request hard-to-find items, and get a quick response for retail or workshop orders across Europe.
           </p>
 
           <div class="hero-actions">
@@ -42,38 +41,40 @@
           </div>
 
           <div class="hero-points">
-            <span>• Quick request form</span>
-            <span>• Small product showcase</span>
-            <span>• Easy contact via email / Telegram / WhatsApp</span>
+            <span>• Automatic transmission parts</span>
+            <span>• EU delivery</span>
+            <span>• Fast request handling</span>
           </div>
         </div>
 
         <div class="hero-card">
           <div class="hero-preview">
             <div class="mini-card">
-              <div class="thumb"></div>
-              <h4>Featured Product</h4>
-              <p>Highlight one of your best-selling or most requested items.</p>
+              <div class="thumb">
+                  <img src="assets/images/transmis.jpg" alt="card1" />
+              </div>
+              <h4>Parts Catalog</h4> 
+              <p>Browse selected automatic transmission parts and service materials in one place.</p>
             </div>
             <div class="mini-card">
               <div class="thumb"></div>
-              <h4>Custom Request</h4>
-              <p>Customers can send a link or describe the exact item they want.</p>
+              <h4>Part Request</h4>
+              <p>Can’t find the right part? Send a request with quantity and contact details.</p>
             </div>
           </div>
 
           <div class="stats">
             <div class="stat">
-              <strong>Fast reply</strong>
-              <span>Quick confirmation and follow-up for each request</span>
+              <strong>EU Delivery</strong>
+              <span>Delivery through European Union</span>
             </div>
             <div class="stat">
-              <strong>Clear process</strong>
-              <span>Simple ordering, payment, and shipping communication</span>
+              <strong>For Workshops</strong>
+              <span>Suitable for both individual customers and repair shops.</span>
             </div>
             <div class="stat">
-              <strong>Direct contact</strong>
-              <span>Customers can reach you through their preferred channel</span>
+              <strong>Fast Response</strong>
+              <span>Quick contact and request handling for selected parts.</span>
             </div>
           </div>
         </div>
@@ -90,7 +91,7 @@
         <div class="products-grid">
           <article class="product-card">
             <div class="product-image">
-                <img src="assets/images/photo_2026-03-17_20-13-05.jpg" alt="Your Brand logo" />
+              <img src="assets/images/photo_2026-03-17_20-13-05.jpg" alt="product image 1" />
               <span class="product-tag">Best Seller</span>
             </div>
             <div class="product-body">
@@ -186,81 +187,171 @@
       </div>
     </section>
 
-    <section class="section" id="order">
-      <div class="container contact-grid">
-        <article class="contact-card">
-          <h3>Order Request</h3>
-          <p>
-            This is the starter version of the form. At first, it can simply send order details to your email,
-            Telegram, or Google Sheets through a backend or webhook.
-          </p>
+   <section class="section" id="order">
+  <div class="container">
+    <h2 class="section-title">Request a Part</h2>
+    <p class="section-text">
+      Send your request in the way that is most convenient for you. You can request a part by name,
+      OEM number, or part photo, and we will get back to you through email or your preferred messenger.
+    </p>
 
-          <ul class="contact-list">
-            <li>
-              <strong>What customers can submit</strong>
-              Product name, link, quantity, contact details, and additional notes.
-            </li>
-            <li>
-              <strong>What you can add later</strong>
-              File upload, delivery method selection, payment options, and order status tracking.
-            </li>
-            <li>
-              <strong>How to connect the form</strong>
-              Cloudflare Worker, Telegram Bot API, email API, or Google Apps Script.
-            </li>
-          </ul>
-        </article>
-
-        <article class="form-card">
-          <h3>Place an Order</h3>
-          <p class="form-note">The form currently works in demo mode on the frontend. The next step is connecting real submission handling.</p>
-
-          <form id="orderForm">
-            <div class="form-row">
-              <label>
-                Your Name
-                <input type="text" name="name" placeholder="For example, Denis" required />
-              </label>
-
-              <label>
-                Contact Details
-                <input type="text" name="contact" placeholder="Email / Telegram / WhatsApp" required />
-              </label>
-            </div>
-
-            <div class="form-row">
-              <label>
-                Product
-                <input type="text" name="product" placeholder="Product name" required />
-              </label>
-
-              <label>
-                Quantity
-                <select name="quantity">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4+">4+</option>
-                </select>
-              </label>
-            </div>
-
-            <label>
-              Product Link
-              <input type="url" name="link" placeholder="https://..." />
-            </label>
-
-            <label>
-              Message
-              <textarea name="message" placeholder="Add any details about the product, color, model, shipping preferences, and so on."></textarea>
-            </label>
-
-            <button class="btn btn-primary" type="submit">Send Request</button>
-            <div id="formStatus" class="form-status"></div>
-          </form>
-        </article>
+    <div class="request-box">
+      <div class="request-tabs">
+        <button class="request-tab active" type="button" data-tab="name">By Part Name</button>
+        <button class="request-tab" type="button" data-tab="oem">By OEM Number</button>
+        <button class="request-tab" type="button" data-tab="photo">By Part Photo</button>
       </div>
-    </section>
+
+      <!-- TAB 1 -->
+      <div class="request-panel active" id="tab-name">
+        <form class="request-form" id="partNameForm" action="/api/request" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="requestType" value="By Part Name" />
+            <div class="form-grid one-column">
+            <label>
+              Required Parts
+              <input type="text" name="requiredParts" placeholder="For example: filter, gasket, solenoid" required />
+              <small>If you need several parts, please separate them with commas.</small>
+            </label>
+          </div>
+
+          <div class="form-grid two-columns">
+            <label>
+              Transmission Model
+              <input type="text" name="transmissionModel" placeholder="For example: 5HP19" />
+            </label>
+
+            <div></div>
+          </div>
+
+          <h3 class="form-subtitle">Vehicle Information</h3>
+
+          <div class="form-grid two-columns">
+            <label>
+              Car Brand
+              <input type="text" name="carBrand" placeholder="For example: BMW" />
+            </label>
+
+            <label>
+              Car Model
+              <input type="text" name="carModel" placeholder="For example: 530d" />
+            </label>
+
+            <label>
+              Year
+              <input type="text" name="year" placeholder="For example: 2012" />
+            </label>
+
+            <label>
+              Engine Size
+              <input type="text" name="engineSize" placeholder="For example: 3.0" />
+            </label>
+          </div>
+
+          <h3 class="form-subtitle">Your Information</h3>
+
+          <div class="form-grid two-columns">
+            <label>
+              Your Name
+              <input type="text" name="customerName" placeholder="Your name" required />
+            </label>
+
+            <label>
+              Email or Messenger
+              <input type="text" name="contact" placeholder="Email, Telegram, WhatsApp, etc." required />
+            </label>
+          </div>
+
+          <button class="btn btn-primary" type="submit">Request a Quote</button>
+          <div class="form-status" id="status-name"></div>
+        </form>
+      </div>
+
+      <!-- TAB 2 -->
+      <div class="request-panel" id="tab-oem">
+        <form class="request-form" id="oemForm" action="/api/request" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="requestType" value="By OEM Number" />
+          <div class="form-grid one-column">
+            <label>
+              OEM Number
+              <input type="text" name="oemNumber" placeholder="For example: 8E0317823L" required />
+            </label>
+          </div>
+
+          <h3 class="form-subtitle">Your Information</h3>
+
+          <div class="form-grid two-columns">
+            <label>
+              Your Name
+              <input type="text" name="customerName" placeholder="Your name" required />
+            </label>
+
+            <label>
+              Email or Messenger
+              <input type="text" name="contact" placeholder="Email, Telegram, WhatsApp, etc." required />
+            </label>
+          </div>
+
+          <button class="btn btn-primary" type="submit">Request a Quote</button>
+          <div class="form-status" id="status-oem"></div>
+        </form>
+      </div>
+
+      <!-- TAB 3 -->
+      <div class="request-panel" id="tab-photo">
+        <form class="request-form" id="photoForm" action="/api/request" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="requestType" value="By Part Photo" />
+          <div class="form-grid one-column">
+            <label>
+              Upload a Photo
+              <input type="file" name="photo" accept="image/*" />
+            </label>
+          </div>
+
+          <h3 class="form-subtitle">Vehicle Information</h3>
+
+          <div class="form-grid two-columns">
+            <label>
+              Car Brand
+              <input type="text" name="carBrand" placeholder="For example: Audi" />
+            </label>
+
+            <label>
+              Car Model
+              <input type="text" name="carModel" placeholder="For example: A6" />
+            </label>
+
+            <label>
+              Year
+              <input type="text" name="year" placeholder="For example: 2015" />
+            </label>
+
+            <label>
+              Engine Size
+              <input type="text" name="engineSize" placeholder="For example: 2.0" />
+            </label>
+          </div>
+
+          <h3 class="form-subtitle">Your Information</h3>
+
+          <div class="form-grid two-columns">
+            <label>
+              Your Name
+              <input type="text" name="customerName" placeholder="Your name" required />
+            </label>
+
+            <label>
+              Email or Messenger
+              <input type="text" name="contact" placeholder="Email, Telegram, WhatsApp, etc." required />
+            </label>
+          </div>
+
+          <button class="btn btn-primary" type="submit">Request a Quote</button>
+          <div class="form-status" id="status-photo"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
     <section class="section" id="contacts">
       <div class="container">

@@ -1,0 +1,155 @@
+export async function onRequestPost(context) {
+  try {
+    const formData = await context.request.formData();
+
+    const requestType = (formData.get("requestType") || "").toString();
+    const customerName = (formData.get("customerName") || "").toString();
+    const contact = (formData.get("contact") || "").toString();
+
+    const requiredParts = (formData.get("requiredParts") || "").toString();
+    const transmissionModel = (formData.get("transmissionModel") || "").toString();
+
+    const oemNumber = (formData.get("oemNumber") || "").toString();
+
+    const carBrand = (formData.get("carBrand") || "").toString();
+    const carModel = (formData.get("carModel") || "").toString();
+    const year = (formData.get("year") || "").toString();
+    const engineSize = (formData.get("engineSize") || "").toString();
+
+    const photo = formData.get("photo");
+
+    const lines = [
+      `Request type: ${requestType || "-"}`,
+      "",
+      "Customer information",
+      `Name: ${customerName || "-"}`,
+      `Email or Messenger: ${contact || "-"}`,
+      "",
+      "Request details",
+      `Required parts: ${requiredParts || "-"}`,
+      `Transmission model: ${transmissionModel || "-"}`,
+      `OEM number: ${oemNumber || "-"}`,
+      "",
+      "Vehicle information",
+      `Car brand: ${carBrand || "-"}`,
+      `Car model: ${carModel || "-"}`,
+      `Year: ${year || "-"}`,
+      `Engine size: ${engineSize || "-"}`,
+    ];
+
+    const textBody = lines.join("\n");
+
+    const htmlBody = `
+      <h2>New part request</h2>
+      <p><strong>Request type:</strong> ${escapeHtml(requestType || "-")}</p>
+
+      <h3>Customer information</h3>
+      <p><strong>Name:</strong> ${escapeHtml(customerName || "-")}</p>
+      <p><strong>Email or Messenger:</strong> ${escapeHtml(contact || "-")}</p>
+
+      <h3>Request details</h3>
+      <p><strong>Required parts:</strong> ${escapeHtml(requiredParts || "-")}</p>
+      <p><strong>Transmission model:</strong> ${escapeHtml(transmissionModel || "-")}</p>
+      <p><strong>OEM number:</strong> ${escapeHtml(oemNumber || "-")}</p>
+
+      <h3>Vehicle information</h3>
+      <p><strong>Car brand:</strong> ${escapeHtml(carBrand || "-")}</p>
+      <p><strong>Car model:</strong> ${escapeHtml(carModel || "-")}</p>
+      <p><strong>Year:</strong> ${escapeHtml(year || "-")}</p>
+      <p><strong>Engine size:</strong> ${escapeHtml(engineSize || "-")}</p>
+    `;
+
+    const attachments = [];
+
+    if (photo && typeof photo !== "string" && photo.size > 0) {
+      if (photo.size > 5 * 1024 * 1024) {
+        return json(
+          { ok: false, message: "The uploaded file is too large. Please use a file smaller than 5 MB." },
+          400
+        );
+      }
+
+      const bytes = await photo.arrayBuffer();
+      attachments.push({
+        filename: photo.name || "part-photo",
+        content: arrayBufferToBase64(bytes),
+      });
+    }
+
+    const resendResponse = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${context.env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "Tiptronic Group <onboarding@resend.dev>",
+        to: ["aleg.tiptronicgroup@gmail.com"],
+        reply_to: contact || undefined,
+        subject: `New request: ${requestType || "Part request"}`,
+        text: textBody,
+        html: htmlBody,
+        attachments,
+      }),
+    });
+
+    const resendData = await resendResponse.json();
+
+    if (!resendResponse.ok) {
+      return json(
+        {
+          ok: false,
+          message: resendData?.message || "Failed to send the request.",
+          details: resendData,
+        },
+        500
+      );
+    }
+
+    return json({
+      ok: true,
+      message: "Your request has been sent successfully.",
+      id: resendData?.id || null,
+    });
+  } catch (error) {
+    return json(
+      {
+        ok: false,
+        message: "Unexpected server error.",
+        error: String(error),
+      },
+      500
+    );
+  }
+}
+
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+function arrayBufferToBase64(buffer) {
+  let binary = "";
+  const bytes = new Uint8Array(buffer);
+  const chunkSize = 0x8000;
+
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    const chunk = bytes.subarray(i, i + chunkSize);
+    binary += String.fromCharCode(...chunk);
+  }
+
+  return btoa(binary);
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}

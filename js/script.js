@@ -1,19 +1,67 @@
-const form = document.getElementById("orderForm");
-const statusBox = document.getElementById("formStatus");
+const tabs = document.querySelectorAll(".request-tab");
+const panels = document.querySelectorAll(".request-panel");
 
-if (form && statusBox) {
-  form.addEventListener("submit", function (e) {
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const target = tab.dataset.tab;
+
+    tabs.forEach((item) => item.classList.remove("active"));
+    panels.forEach((panel) => panel.classList.remove("active"));
+
+    tab.classList.add("active");
+    document.getElementById(`tab-${target}`).classList.add("active");
+  });
+});
+
+function connectRequestForm(formId, statusId) {
+  const form = document.getElementById(formId);
+  const statusBox = document.getElementById(statusId);
+
+  if (!form || !statusBox) return;
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(form);
-    const payload = Object.fromEntries(formData.entries());
+    statusBox.className = "form-status";
+    statusBox.textContent = "";
 
-    console.log("Order request:", payload);
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton ? submitButton.textContent : "";
 
-    statusBox.className = "form-status success";
-    statusBox.textContent =
-      "Your request was saved in demo mode. The next step is connecting real submission handling through a Cloudflare Worker or another backend.";
+    try {
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
+      }
 
-    form.reset();
+      const formData = new FormData(form);
+
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.ok) {
+        throw new Error(data.message || "Failed to send the request.");
+      }
+
+      statusBox.className = "form-status success";
+      statusBox.textContent = data.message || "Your request has been sent successfully.";
+      form.reset();
+    } catch (error) {
+      statusBox.className = "form-status error";
+      statusBox.textContent = error.message || "Something went wrong. Please try again.";
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+      }
+    }
   });
 }
+
+connectRequestForm("partNameForm", "status-name");
+connectRequestForm("oemForm", "status-oem");
+connectRequestForm("photoForm", "status-photo");
