@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Brand | Product Orders</title>
+  <meta name="description" content="Informational website with a product showcase, order form, and contact section." />
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #171a21;
+      --card-2: #1f2430;
+      --text: #f5f7fb;
+      --muted: #b7bfd1;
+      --accent: #7c5cff;
+      --accent-hover: #6948f5;
+      --line: #2b3140;
+      --success: #28c76f;
+      --danger: #ff6b6b;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --max-width: 1160px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #0b0d12 0%, #121620 100%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 84px 0;
+    }
+
+    .section-title {
+      font-size: clamp(1.9rem, 3vw, 2.6rem);
+      margin-bottom: 12px;
+    }
+
+    .section-text {
+      color: var(--muted);
+      max-width: 760px;
+      margin-bottom: 36px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(124, 92, 255, 0.14);
+      border: 1px solid rgba(124, 92, 255, 0.28);
+      color: #d8d0ff;
+      font-size: 0.92rem;
+      margin-bottom: 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.25s ease;
+      font-size: 0.98rem;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 1px solid var(--line);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: #dcd5ff;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      background: rgba(10, 12, 16, 0.76);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .nav-inner {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), #3fd0ff);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .nav-links a:hover {
+      color: white;
+    }
+
+    .hero {
+      padding: 72px 0 56px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4.6rem);
+      line-height: 1.05;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 680px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .hero-points {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-preview {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .mini-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+
+    .mini-card .thumb {
+      aspect-ratio: 4 / 3;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #252a39, #31384a);
+      margin-bottom: 14px;
+    }
+
+    .mini-card h4 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .mini-card p {
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--line);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .products-grid,
+    .features-grid,
+    .contact-grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .products-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .product-card,
+    .feature-card,
+    .info-card,
+    .contact-card,
+    .form-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .product-card {
+      overflow: hidden;
+    }
+
+    .product-image {
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(135deg, #2a3140, #1f2430);
+      position: relative;
+    }
+
+    .product-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(15, 17, 21, 0.8);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 0.82rem;
+      color: #eef2ff;
+    }
+
+    .product-body {
+      padding: 20px;
+    }
+
+    .product-body h3 {
+      margin-bottom: 8px;
+      font-size: 1.12rem;
+    }
+
+    .product-body p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+      min-height: 70px;
+    }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .price {
+      font-weight: 700;
+      font-size: 1.08rem;
+    }
+
+    .features-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .feature-card {
+      padding: 24px;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(124, 92, 255, 0.14);
+      border: 1px solid rgba(124, 92, 255, 0.24);
+      margin-bottom: 16px;
+      font-size: 1.2rem;
+    }
+
+    .feature-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.08rem;
+    }
+
+    .feature-card p,
+    .info-card p,
+    .contact-card p,
+    .contact-card li {
+      color: var(--muted);
+    }
+
+    .info-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .info-card {
+      padding: 28px;
+    }
+
+    .info-card h3 {
+      margin-bottom: 14px;
+      font-size: 1.18rem;
+    }
+
+    .info-card ul {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .info-card li {
+      padding-left: 18px;
+      position: relative;
+      color: var(--muted);
+    }
+
+    .info-card li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .contact-grid {
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: start;
+    }
+
+    .contact-card,
+    .form-card {
+      padding: 28px;
+    }
+
+    .contact-card h3,
+    .form-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+    }
+
+    .contact-list {
+      list-style: none;
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .contact-list strong {
+      display: block;
+      margin-bottom: 4px;
+      color: white;
+    }
+
+    form {
+      display: grid;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 0.94rem;
+      color: #e7ebf7;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      background: var(--card-2);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      color: white;
+      outline: none;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      font: inherit;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .form-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .form-status {
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      display: none;
+    }
+
+    .form-status.success {
+      display: block;
+      background: rgba(40, 199, 111, 0.12);
+      border: 1px solid rgba(40, 199, 111, 0.28);
+      color: #baf3d0;
+    }
+
+    .form-status.error {
+      display: block;
+      background: rgba(255, 107, 107, 0.12);
+      border: 1px solid rgba(255, 107, 107, 0.28);
+      color: #ffd0d0;
+    }
+
+    .footer {
+      padding: 26px 0 40px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .info-wrap,
+      .contact-grid,
+      .products-grid,
+      .features-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-grid,
+      .info-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner {
+        min-height: 66px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .products-grid,
+      .features-grid,
+      .hero-preview,
+      .stats,
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 64px 0;
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      .hero h1 {
+        font-size: 2.35rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">
+        <span class="brand-logo">YB</span>
+        <span>Your Brand</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#products">Products</a>
+        <a href="#about">How It Works</a>
+        <a href="#order">Order</a>
+        <a href="#contacts">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge">eBay products and custom orders</div>
+          <h1>Simple product ordering<br />with a clear and professional flow</h1>
+          <p>
+            This website helps customers browse selected products, send an order request, and contact you quickly.
+            It works as a clean and trustworthy landing page for your business before you build a larger store.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#order">Place an Order</a>
+            <a class="btn btn-secondary" href="#products">Browse Products</a>
+          </div>
+
+          <div class="hero-points">
+            <span>• Quick request form</span>
+            <span>• Small product showcase</span>
+            <span>• Easy contact via email / Telegram / WhatsApp</span>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-preview">
+            <div class="mini-card">
+              <div class="thumb"></div>
+              <h4>Featured Product</h4>
+              <p>Highlight one of your best-selling or most requested items.</p>
+            </div>
+            <div class="mini-card">
+              <div class="thumb"></div>
+              <h4>Custom Request</h4>
+              <p>Customers can send a link or describe the exact item they want.</p>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <strong>Fast reply</strong>
+              <span>Quick confirmation and follow-up for each request</span>
+            </div>
+            <div class="stat">
+              <strong>Clear process</strong>
+              <span>Simple ordering, payment, and shipping communication</span>
+            </div>
+            <div class="stat">
+              <strong>Direct contact</strong>
+              <span>Customers can reach you through their preferred channel</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="products">
+      <div class="container">
+        <h2 class="section-title">Product Showcase</h2>
+        <p class="section-text">
+          Add a few selected items here to show what you sell most often or what you want to promote first.
+        </p>
+
+        <div class="products-grid">
+          <article class="product-card">
+            <div class="product-image">
+              <span class="product-tag">Best Seller</span>
+            </div>
+            <div class="product-body">
+              <h3>Product #1</h3>
+              <p>Add a short description here: what it is, who it is for, and why it is worth ordering from you.</p>
+              <div class="product-footer">
+                <span class="price">from €49</span>
+                <a class="btn btn-secondary" href="#order">Order Now</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <span class="product-tag">New Arrival</span>
+            </div>
+            <div class="product-body">
+              <h3>Product #2</h3>
+              <p>You can include estimated pricing, product condition, shipping details, or any key information.</p>
+              <div class="product-footer">
+                <span class="price">from €79</span>
+                <a class="btn btn-secondary" href="#order">Order Now</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <span class="product-tag">On Request</span>
+            </div>
+            <div class="product-body">
+              <h3>Custom Product Request</h3>
+              <p>Use this card for items that are not shown in the showcase. Customers can send a link or a product name.</p>
+              <div class="product-footer">
+                <span class="price">price on request</span>
+                <a class="btn btn-secondary" href="#order">Send Request</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-text">
+          This section helps customers understand the ordering process in just a few simple steps.
+        </p>
+
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon">1</div>
+            <h3>Send your request</h3>
+            <p>The customer chooses a product from the showcase or sends a request for a specific item through the order form.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">2</div>
+            <h3>Confirmation and details</h3>
+            <p>You review the request, confirm availability, price, and shipping details, then contact the customer directly.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">3</div>
+            <h3>Shipping and delivery</h3>
+            <p>After confirmation, the order is processed and delivered using the method you agree on with the customer.</p>
+          </article>
+        </div>
+
+        <div class="info-wrap" style="margin-top: 22px;">
+          <article class="info-card">
+            <h3>What you can show here</h3>
+            <ul>
+              <li>Shipping information and estimated delivery times</li>
+              <li>Payment methods</li>
+              <li>Return or exchange policy</li>
+              <li>Frequently asked questions</li>
+            </ul>
+          </article>
+
+          <article class="info-card">
+            <h3>Why this works well</h3>
+            <ul>
+              <li>Customers get a clear and professional overview instead of scattered chat messages</li>
+              <li>You collect all important order details in one place</li>
+              <li>The website can later grow into a larger online store</li>
+              <li>It works well as your main link from eBay, social media, and messaging apps</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="order">
+      <div class="container contact-grid">
+        <article class="contact-card">
+          <h3>Order Request</h3>
+          <p>
+            This is the starter version of the form. At first, it can simply send order details to your email,
+            Telegram, or Google Sheets through a backend or webhook.
+          </p>
+
+          <ul class="contact-list">
+            <li>
+              <strong>What customers can submit</strong>
+              Product name, link, quantity, contact details, and additional notes.
+            </li>
+            <li>
+              <strong>What you can add later</strong>
+              File upload, delivery method selection, payment options, and order status tracking.
+            </li>
+            <li>
+              <strong>How to connect the form</strong>
+              Cloudflare Worker, Telegram Bot API, email API, or Google Apps Script.
+            </li>
+          </ul>
+        </article>
+
+        <article class="form-card">
+          <h3>Place an Order</h3>
+          <p class="form-note">The form currently works in demo mode on the frontend. The next step is connecting real submission handling.</p>
+
+          <form id="orderForm">
+            <div class="form-row">
+              <label>
+                Your Name
+                <input type="text" name="name" placeholder="For example, Denis" required />
+              </label>
+
+              <label>
+                Contact Details
+                <input type="text" name="contact" placeholder="Email / Telegram / WhatsApp" required />
+              </label>
+            </div>
+
+            <div class="form-row">
+              <label>
+                Product
+                <input type="text" name="product" placeholder="Product name" required />
+              </label>
+
+              <label>
+                Quantity
+                <select name="quantity">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4+">4+</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              Product Link
+              <input type="url" name="link" placeholder="https://..." />
+            </label>
+
+            <label>
+              Message
+              <textarea name="message" placeholder="Add any details about the product, color, model, shipping preferences, and so on."></textarea>
+            </label>
+
+            <button class="btn btn-primary" type="submit">Send Request</button>
+            <div id="formStatus" class="form-status"></div>
+          </form>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="contacts">
+      <div class="container">
+        <h2 class="section-title">Contact</h2>
+        <p class="section-text">
+          Add your real contact methods here so customers can reach you quickly.
+        </p>
+
+        <div class="info-wrap">
+          <article class="info-card">
+            <h3>Get in touch</h3>
+            <ul>
+              <li>Email: yourmail@example.com</li>
+              <li>Telegram: @yourname</li>
+              <li>WhatsApp: +00 000 000 000</li>
+              <li>Response time: daily from 10:00 to 20:00</li>
+            </ul>
+          </article>
+
+          <article class="info-card">
+            <h3>Additional information</h3>
+            <ul>
+              <li>You can add links to your eBay profile, Instagram, or other platforms</li>
+              <li>Later, you can add reviews, a map, or a dedicated FAQ block</li>
+              <li>You can also create a separate privacy policy page</li>
+              <li>And add a dedicated shipping and ordering policy section</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© 2026 Your Brand. All rights reserved.</span>
+      <span>Starter template for a fast website launch.</span>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    const statusBox = document.getElementById('formStatus');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+
+      console.log('Order request:', payload);
+
+      statusBox.className = 'form-status success';
+      statusBox.textContent = 'Your request was saved in demo mode. The next step is connecting real submission handling through a Cloudflare Worker or another backend.';
+
+      form.reset();
+    });
+  </script>
+</body>
+</html>
+
