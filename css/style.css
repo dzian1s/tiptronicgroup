@@ -92,7 +92,7 @@ a {
 
 .btn-primary {
   background: var(--accent);
-  color: var(--accent-text);
+  color:  #111;
   box-shadow: var(--shadow);
 }
 
