@@ -781,3 +781,43 @@ textarea {
   display: block;
   margin: 0 0 20px 0;
 }
+
+.privacy-note {
+  margin-top: -4px;
+  padding: 14px 16px;
+  border: 1px solid #2f2f2f;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+}
+
+.privacy-note p {
+  margin: 0 0 12px 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.privacy-note a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.privacy-note a:hover {
+  text-decoration: underline;
+}
+
+.privacy-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.privacy-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
