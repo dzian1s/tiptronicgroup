@@ -775,7 +775,7 @@ select {
 }
 
 .hero-logo-image {
-  width: min(100%, 420px);
+  width: min(100%, 350px);
   height: auto;
   display: block;
   margin: 0 0 20px 0;
