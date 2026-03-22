@@ -444,17 +444,16 @@ label {
   color: #e7ebf7;
 }
 
-input,
-textarea,
-select {
+.request-form input:not([type="checkbox"]),
+.request-form textarea,
+.request-form select {
   width: 100%;
-  background: var(--card-2);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 14px 16px;
-  color: white;
+  background: #181818;
+  border: 1px solid #3a3a3a;
+  border-radius: 0;
+  padding: 12px 14px;
+  color: var(--text);
   outline: none;
-  transition: border-color 0.2s ease, transform 0.2s ease;
   font: inherit;
 }
 
@@ -629,9 +628,9 @@ textarea {
   font-weight: 500;
 }
 
-.request-form input,
-.request-form textarea,
-.request-form select {
+input,
+textarea,
+select {
   width: 100%;
   background: #181818;
   border: 1px solid #3a3a3a;
@@ -807,7 +806,7 @@ textarea {
 }
 
 .privacy-checkbox {
-  display: flex;
+  display: flex !important;
   align-items: flex-start;
   gap: 10px;
   font-size: 0.92rem;
@@ -818,6 +817,7 @@ textarea {
 .privacy-checkbox input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  margin-top: 2px;
+  margin: 3px 0 0 0;
   flex-shrink: 0;
+  accent-color: var(--accent);
 }
