@@ -1,5 +1,4 @@
-const FALLBACK_IMAGE = "../assets/images/automatic-transmission-4.jpg";
-
+const FALLBACK_IMAGE = "../assets/images/Noimageyet.png";
 const CATALOG_URL = "../data/catalog.json";
 
 const state = {
@@ -11,19 +10,21 @@ const state = {
     brand: "",
     inStockOnly: false,
     query: ""
-  }
+  },
+  sort: "group-asc"
 };
 
 const els = {
-  grid: document.getElementById("catalog-grid"),
-  empty: document.getElementById("catalog-empty"),
-  count: document.getElementById("catalog-count"),
-  search: document.getElementById("catalog-search"),
-  group: document.getElementById("filter-group"),
-  type: document.getElementById("filter-type"),
-  brand: document.getElementById("filter-brand"),
-  inStockOnly: document.getElementById("filter-instock"),
-  reset: document.getElementById("catalog-reset")
+  grid: document.getElementById("catalogGrid"),
+  state: document.getElementById("catalogState"),
+  count: document.getElementById("resultsCount"),
+  search: document.getElementById("searchInput"),
+  group: document.getElementById("groupFilter"),
+  type: document.getElementById("typeFilter"),
+  brand: document.getElementById("brandFilter"),
+  inStockOnly: document.getElementById("inStockOnly"),
+  reset: document.getElementById("resetFiltersBtn"),
+  sort: document.getElementById("sortSelect")
 };
 
 function normalizeText(value) {
@@ -64,6 +65,17 @@ function buildBadges(item) {
   return [item.group, getDisplayType(item)].filter(Boolean);
 }
 
+function resolveImageSrc(item) {
+  const raw = normalizeText(item.image);
+  if (!raw) return FALLBACK_IMAGE;
+
+  if (raw.startsWith("/AllPhoto/")) {
+    return raw;
+  }
+
+  return raw;
+}
+
 function buildWarehouseRows(item) {
   if (!Array.isArray(item.stocks) || item.stocks.length === 0) {
     return `
@@ -88,7 +100,7 @@ function buildWarehouseRows(item) {
 
 function buildCard(item) {
   const badges = buildBadges(item);
-  const imageSrc = normalizeText(item.image) || "../images/placeholder.jpg";
+  const imageSrc = resolveImageSrc(item);
   const brandLine = item.brand
     ? `<div class="catalog-card__meta">${escapeHtml(item.brand)}</div>`
     : "";
@@ -101,6 +113,7 @@ function buildCard(item) {
           src="${escapeHtml(imageSrc)}"
           alt="${escapeHtml(item.name || item.article || "Product")}"
           loading="lazy"
+          onerror="this.onerror=null;this.src='${FALLBACK_IMAGE}'"
         />
       </div>
 
@@ -139,17 +152,51 @@ function buildCard(item) {
 
 function renderCatalog(items) {
   els.grid.innerHTML = items.map(buildCard).join("");
-  els.count.textContent = String(items.length);
+  els.count.textContent = `${items.length} items`;
 
   const isEmpty = items.length === 0;
-  els.empty.hidden = !isEmpty;
+  els.state.hidden = !isEmpty;
   els.grid.hidden = isEmpty;
+
+  if (isEmpty) {
+    els.state.textContent = "No items match the selected filters.";
+  }
+}
+
+function sortItems(items) {
+  const arr = [...items];
+
+  switch (state.sort) {
+    case "price-asc":
+      arr.sort((a, b) => Number(a.price) - Number(b.price));
+      break;
+    case "price-desc":
+      arr.sort((a, b) => Number(b.price) - Number(a.price));
+      break;
+    case "name-asc":
+      arr.sort((a, b) =>
+        normalizeText(a.name).localeCompare(normalizeText(b.name), "en")
+      );
+      break;
+    case "group-asc":
+    default:
+      arr.sort((a, b) => {
+        return (
+          normalizeText(a.group).localeCompare(normalizeText(b.group), "en") ||
+          normalizeText(getDisplayType(a)).localeCompare(normalizeText(getDisplayType(b)), "en") ||
+          normalizeText(a.name).localeCompare(normalizeText(b.name), "en")
+        );
+      });
+      break;
+  }
+
+  return arr;
 }
 
 function applyFilters() {
   const query = normalizeText(state.filters.query).toLowerCase();
 
-  state.filtered = state.items.filter((item) => {
+  const filtered = state.items.filter((item) => {
     const itemType = getDisplayType(item);
 
     const matchesGroup =
@@ -161,7 +208,8 @@ function applyFilters() {
     const matchesBrand =
       !state.filters.brand || normalizeText(item.brand) === state.filters.brand;
 
-    const matchesStock = !state.filters.inStockOnly || Number(item.totalStock) > 0;
+    const matchesStock =
+      !state.filters.inStockOnly || Number(item.totalStock) > 0;
 
     const haystack = [
       item.group,
@@ -185,6 +233,7 @@ function applyFilters() {
     );
   });
 
+  state.filtered = sortItems(filtered);
   renderCatalog(state.filtered);
 }
 
@@ -223,8 +272,10 @@ function updateFilterOptions() {
   const itemsForBrand = state.items.filter((item) => {
     const itemType = getDisplayType(item);
 
-    const matchesGroup = !selectedGroup || normalizeText(item.group) === selectedGroup;
-    const matchesType = !selectedType || normalizeText(itemType) === selectedType;
+    const matchesGroup =
+      !selectedGroup || normalizeText(item.group) === selectedGroup;
+    const matchesType =
+      !selectedType || normalizeText(itemType) === selectedType;
 
     return matchesGroup && matchesType;
   });
@@ -272,6 +323,11 @@ function bindEvents() {
     applyFilters();
   });
 
+  els.sort.addEventListener("change", (event) => {
+    state.sort = event.target.value;
+    applyFilters();
+  });
+
   els.reset.addEventListener("click", () => {
     state.filters = {
       group: "",
@@ -280,9 +336,11 @@ function bindEvents() {
       inStockOnly: false,
       query: ""
     };
+    state.sort = "group-asc";
 
     els.search.value = "";
     els.inStockOnly.checked = false;
+    els.sort.value = "group-asc";
 
     updateFilterOptions();
     applyFilters();
@@ -305,9 +363,9 @@ async function loadCatalog() {
   } catch (error) {
     console.error(error);
     els.grid.hidden = true;
-    els.empty.hidden = false;
-    els.empty.textContent = "Catalog failed to load.";
-    els.count.textContent = "0";
+    els.state.hidden = false;
+    els.state.textContent = "Catalog failed to load.";
+    els.count.textContent = "0 items";
   }
 }
 
