@@ -277,3 +277,129 @@
     min-width: 0;
   }
 }
+
+/* === Compatibility for new catalog.js card classes === */
+
+.catalog-card__image-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #111;
+}
+
+.catalog-card__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 24px;
+}
+
+.catalog-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.card-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.02);
+  color: #d6d6d6;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.catalog-card__title {
+  margin: 0;
+  color: #fff;
+  font-size: 20px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.catalog-card__article,
+.catalog-card__meta {
+  color: #d0d0d0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.catalog-card__price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.catalog-card__price {
+  color: #fff;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.catalog-card__stock {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.catalog-card__stock.is-instock {
+  color: #7ef0b3;
+  background: rgba(18, 125, 74, 0.25);
+  border: 1px solid rgba(62, 214, 138, 0.35);
+}
+
+.catalog-card__stock.is-outstock {
+  color: #ffb3b3;
+  background: rgba(120, 20, 20, 0.25);
+  border: 1px solid rgba(255, 110, 110, 0.35);
+}
+
+.catalog-card__warehouses {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.warehouse-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 46px;
+  padding: 0 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f1f1f1;
+  font-size: 15px;
+}
+
+.catalog-card__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.catalog-card__actions .btn {
+  min-height: 52px;
+}
