@@ -1,273 +1,315 @@
-const CATALOG_URL = "../data/catalog.json";
 const FALLBACK_IMAGE = "../assets/images/automatic-transmission-4.jpg";
 
+const CATALOG_URL = "../data/catalog.json";
+
 const state = {
-  rawItems: [],
   items: [],
+  filtered: [],
   filters: {
-    search: "",
     group: "",
     type: "",
     brand: "",
     inStockOnly: false,
-    sort: "group-asc",
-  },
+    query: ""
+  }
 };
 
-const elements = {
-  grid: document.getElementById("catalogGrid"),
-  state: document.getElementById("catalogState"),
-  resultsCount: document.getElementById("resultsCount"),
-  searchInput: document.getElementById("searchInput"),
-  groupFilter: document.getElementById("groupFilter"),
-  typeFilter: document.getElementById("typeFilter"),
-  brandFilter: document.getElementById("brandFilter"),
-  inStockOnly: document.getElementById("inStockOnly"),
-  sortSelect: document.getElementById("sortSelect"),
-  resetFiltersBtn: document.getElementById("resetFiltersBtn"),
+const els = {
+  grid: document.getElementById("catalog-grid"),
+  empty: document.getElementById("catalog-empty"),
+  count: document.getElementById("catalog-count"),
+  search: document.getElementById("catalog-search"),
+  group: document.getElementById("filter-group"),
+  type: document.getElementById("filter-type"),
+  brand: document.getElementById("filter-brand"),
+  inStockOnly: document.getElementById("filter-instock"),
+  reset: document.getElementById("catalog-reset")
 };
-
-function escapeHtml(value = "") {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
 
 function normalizeText(value) {
-  return String(value || "").trim();
+  if (value === null || value === undefined) return "";
+  return String(value).replace(/\s+/g, " ").trim();
 }
 
-function normalizeItem(item, index) {
-  const stocks = Array.isArray(item.stocks) ? item.stocks : [];
-  const totalStock = stocks.reduce((sum, stockItem) => sum + Number(stockItem.qty || 0), 0);
-
-  return {
-    id: item.id || `${item.article || "item"}-${index}`,
-    group: normalizeText(item.group),
-    type: normalizeText(item.type),
-    brand: normalizeText(item.brand),
-    article: normalizeText(item.article),
-    name: normalizeText(item.name),
-    image: normalizeText(item.image),
-    description: normalizeText(item.description),
-    price: Number(item.price || 0),
-    currency: normalizeText(item.currency) || "EUR",
-    stocks,
-    totalStock,
-    available: totalStock > 0,
-  };
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
-async function loadCatalog() {
-  try {
-    showState("Loading catalog...");
+function formatPrice(value) {
+  const num = Number(value);
+  if (!Number.isFinite(num)) return "Price on request";
+  return `EUR ${num.toFixed(2)}`;
+}
 
-    const response = await fetch(CATALOG_URL, { cache: "no-store" });
-    if (!response.ok) {
-      throw new Error("Failed to load catalog data.");
-    }
+function uniqueSorted(values) {
+  return [...new Set(values.map(normalizeText).filter(Boolean))].sort((a, b) =>
+    a.localeCompare(b, "en")
+  );
+}
 
-    const data = await response.json();
-    state.rawItems = Array.isArray(data) ? data.map(normalizeItem) : [];
+function getDisplayType(item) {
+  return normalizeText(item.displayType || item.type);
+}
 
-    populateFilterOptions();
-    applyFilters();
-  } catch (error) {
-    showState(error.message || "Could not load catalog.");
+function stockBadgeText(item) {
+  return item.totalStock > 0 ? `In stock: ${item.totalStock}` : "Out of stock";
+}
+
+function buildBadges(item) {
+  return [item.group, getDisplayType(item)].filter(Boolean);
+}
+
+function buildWarehouseRows(item) {
+  if (!Array.isArray(item.stocks) || item.stocks.length === 0) {
+    return `
+      <div class="warehouse-row">
+        <span>Warehouse</span>
+        <span>Qty: 0</span>
+      </div>
+    `;
   }
-}
 
-function uniqueSortedValues(items, key) {
-  return [...new Set(items.map((item) => item[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
-}
-
-function populateSelect(selectElement, values, placeholder = "All") {
-  const currentValue = selectElement.value;
-  selectElement.innerHTML = `<option value="">${placeholder}</option>` + values
-    .map((value) => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`)
+  return item.stocks
+    .map(
+      (stock) => `
+        <div class="warehouse-row">
+          <span>${escapeHtml(stock.warehouse || "Unknown")}</span>
+          <span>Qty: ${Number(stock.qty) || 0}</span>
+        </div>
+      `
+    )
     .join("");
-  selectElement.value = values.includes(currentValue) ? currentValue : "";
 }
 
-function populateFilterOptions() {
-  populateSelect(elements.groupFilter, uniqueSortedValues(state.rawItems, "group"), "All");
-  populateSelect(elements.typeFilter, uniqueSortedValues(state.rawItems, "type"), "All");
-  populateSelect(elements.brandFilter, uniqueSortedValues(state.rawItems, "brand"), "All");
-}
-
-function sortItems(items) {
-  const sorted = [...items];
-  const { sort } = state.filters;
-
-  if (sort === "price-asc") {
-    sorted.sort((a, b) => a.price - b.price);
-  } else if (sort === "price-desc") {
-    sorted.sort((a, b) => b.price - a.price);
-  } else if (sort === "name-asc") {
-    sorted.sort((a, b) => a.name.localeCompare(b.name));
-  } else {
-    sorted.sort((a, b) => {
-      const groupCompare = a.group.localeCompare(b.group);
-      if (groupCompare !== 0) return groupCompare;
-      return a.name.localeCompare(b.name);
-    });
-  }
-
-  return sorted;
-}
-
-function applyFilters() {
-  const { search, group, type, brand, inStockOnly } = state.filters;
-  const query = search.toLowerCase();
-
-  const filtered = state.rawItems.filter((item) => {
-    const matchesSearch = !query || [item.article, item.name, item.group, item.type, item.brand]
-      .filter(Boolean)
-      .some((value) => value.toLowerCase().includes(query));
-
-    const matchesGroup = !group || item.group === group;
-    const matchesType = !type || item.type === type;
-    const matchesBrand = !brand || item.brand === brand;
-    const matchesStock = !inStockOnly || item.available;
-
-    return matchesSearch && matchesGroup && matchesType && matchesBrand && matchesStock;
-  });
-
-  state.items = sortItems(filtered);
-  renderCatalog();
-}
-
-function renderCatalog() {
-  const items = state.items;
-  elements.resultsCount.textContent = `${items.length} item${items.length === 1 ? "" : "s"}`;
-
-  if (!items.length) {
-    elements.grid.hidden = true;
-    showState("No items match the selected filters.");
-    return;
-  }
-
-  elements.state.hidden = true;
-  elements.grid.hidden = false;
-  elements.grid.innerHTML = items.map(renderCard).join("");
-}
-
-function showState(message) {
-  elements.state.hidden = false;
-  elements.state.textContent = message;
-  elements.grid.hidden = true;
-  elements.grid.innerHTML = "";
-  elements.resultsCount.textContent = "0 items";
-}
-
-function renderWarehouseList(stocks) {
-  if (!stocks.length) {
-    return `<li class="catalog-warehouse-item"><span class="catalog-warehouse-name">No warehouse data</span><span class="catalog-warehouse-qty">0</span></li>`;
-  }
-
-  return stocks.map((stockItem) => `
-    <li class="catalog-warehouse-item">
-      <span class="catalog-warehouse-name">${escapeHtml(stockItem.warehouse || "Warehouse")}</span>
-      <span class="catalog-warehouse-qty">Qty: ${escapeHtml(stockItem.qty ?? 0)}</span>
-    </li>
-  `).join("");
-}
-
-function renderCard(item) {
-  const imageSrc = item.image || FALLBACK_IMAGE;
-  const stockClass = item.available ? "in-stock" : "out-of-stock";
-  const stockLabel = item.available ? `In stock: ${item.totalStock}` : "Out of stock";
+function buildCard(item) {
+  const badges = buildBadges(item);
+  const imageSrc = normalizeText(item.image) || "../images/placeholder.jpg";
+  const brandLine = item.brand
+    ? `<div class="catalog-card__meta">${escapeHtml(item.brand)}</div>`
+    : "";
 
   return `
-    <article class="catalog-card catalog-panel">
-      <div class="catalog-card-media">
-        <img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(item.name)}" loading="lazy" onerror="this.src='${FALLBACK_IMAGE}'" />
+    <article class="catalog-card">
+      <div class="catalog-card__image-wrap">
+        <img
+          class="catalog-card__image"
+          src="${escapeHtml(imageSrc)}"
+          alt="${escapeHtml(item.name || item.article || "Product")}"
+          loading="lazy"
+        />
       </div>
-      <div class="catalog-card-body">
-        <div class="catalog-meta-row">
-          ${item.group ? `<span class="catalog-pill">${escapeHtml(item.group)}</span>` : ""}
-          ${item.type ? `<span class="catalog-pill">${escapeHtml(item.type)}</span>` : ""}
-          ${item.brand ? `<span class="catalog-pill">${escapeHtml(item.brand)}</span>` : ""}
+
+      <div class="catalog-card__body">
+        <div class="card-badges">
+          ${badges
+            .map((badge) => `<span class="card-badge">${escapeHtml(badge)}</span>`)
+            .join("")}
         </div>
 
-        <h3 class="catalog-card-title">${escapeHtml(item.name)}</h3>
-        <p class="catalog-card-article">Article: ${escapeHtml(item.article || "—")}</p>
-        ${item.description ? `<p class="catalog-card-description">${escapeHtml(item.description)}</p>` : ""}
+        <h3 class="catalog-card__title">${escapeHtml(item.name || "Unnamed item")}</h3>
 
-        <div class="catalog-price-row">
-          <div class="catalog-price">${escapeHtml(item.currency)} ${item.price.toFixed(2)}</div>
-          <div class="catalog-stock-badge ${stockClass}">${stockLabel}</div>
+        <div class="catalog-card__article">Article: ${escapeHtml(item.article || "-")}</div>
+
+        ${brandLine}
+
+        <div class="catalog-card__price-row">
+          <div class="catalog-card__price">${formatPrice(item.price)}</div>
+          <div class="catalog-card__stock ${item.totalStock > 0 ? "is-instock" : "is-outstock"}">
+            ${escapeHtml(stockBadgeText(item))}
+          </div>
         </div>
 
-        <ul class="catalog-warehouse-list">
-          ${renderWarehouseList(item.stocks)}
-        </ul>
+        <div class="catalog-card__warehouses">
+          ${buildWarehouseRows(item)}
+        </div>
 
-        <div class="catalog-card-actions">
-          <a class="btn btn-primary catalog-btn-small" href="../index.html#order">Request this item</a>
-          <a class="btn btn-secondary catalog-btn-small" href="../index.html#contacts">Contact us</a>
+        <div class="catalog-card__actions">
+          <a class="btn btn-primary" href="../#order">Request this item</a>
+          <a class="btn btn-secondary" href="../#contacts">Contact us</a>
         </div>
       </div>
     </article>
   `;
 }
 
-function resetFilters() {
-  state.filters = {
-    search: "",
-    group: "",
-    type: "",
-    brand: "",
-    inStockOnly: false,
-    sort: "group-asc",
-  };
+function renderCatalog(items) {
+  els.grid.innerHTML = items.map(buildCard).join("");
+  els.count.textContent = String(items.length);
 
-  elements.searchInput.value = "";
-  elements.groupFilter.value = "";
-  elements.typeFilter.value = "";
-  elements.brandFilter.value = "";
-  elements.inStockOnly.checked = false;
-  elements.sortSelect.value = "group-asc";
-
-  applyFilters();
+  const isEmpty = items.length === 0;
+  els.empty.hidden = !isEmpty;
+  els.grid.hidden = isEmpty;
 }
 
-function attachEvents() {
-  elements.searchInput.addEventListener("input", (event) => {
-    state.filters.search = event.target.value.trim();
+function applyFilters() {
+  const query = normalizeText(state.filters.query).toLowerCase();
+
+  state.filtered = state.items.filter((item) => {
+    const itemType = getDisplayType(item);
+
+    const matchesGroup =
+      !state.filters.group || normalizeText(item.group) === state.filters.group;
+
+    const matchesType =
+      !state.filters.type || normalizeText(itemType) === state.filters.type;
+
+    const matchesBrand =
+      !state.filters.brand || normalizeText(item.brand) === state.filters.brand;
+
+    const matchesStock = !state.filters.inStockOnly || Number(item.totalStock) > 0;
+
+    const haystack = [
+      item.group,
+      itemType,
+      item.brand,
+      item.article,
+      item.name
+    ]
+      .map(normalizeText)
+      .join(" ")
+      .toLowerCase();
+
+    const matchesQuery = !query || haystack.includes(query);
+
+    return (
+      matchesGroup &&
+      matchesType &&
+      matchesBrand &&
+      matchesStock &&
+      matchesQuery
+    );
+  });
+
+  renderCatalog(state.filtered);
+}
+
+function refillSelect(selectEl, values, placeholder, selectedValue = "") {
+  selectEl.innerHTML = "";
+
+  const defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.textContent = placeholder;
+  selectEl.appendChild(defaultOption);
+
+  values.forEach((value) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = value;
+    if (value === selectedValue) {
+      option.selected = true;
+    }
+    selectEl.appendChild(option);
+  });
+}
+
+function updateFilterOptions() {
+  const selectedGroup = state.filters.group;
+  const selectedType = state.filters.type;
+  const selectedBrand = state.filters.brand;
+
+  const groupValues = uniqueSorted(state.items.map((item) => item.group));
+
+  const itemsForType = selectedGroup
+    ? state.items.filter((item) => normalizeText(item.group) === selectedGroup)
+    : state.items;
+
+  const typeValues = uniqueSorted(itemsForType.map((item) => getDisplayType(item)));
+
+  const itemsForBrand = state.items.filter((item) => {
+    const itemType = getDisplayType(item);
+
+    const matchesGroup = !selectedGroup || normalizeText(item.group) === selectedGroup;
+    const matchesType = !selectedType || normalizeText(itemType) === selectedType;
+
+    return matchesGroup && matchesType;
+  });
+
+  const brandValues = uniqueSorted(itemsForBrand.map((item) => item.brand));
+
+  if (selectedType && !typeValues.includes(selectedType)) {
+    state.filters.type = "";
+  }
+
+  if (selectedBrand && !brandValues.includes(selectedBrand)) {
+    state.filters.brand = "";
+  }
+
+  refillSelect(els.group, groupValues, "All transmissions", state.filters.group);
+  refillSelect(els.type, typeValues, "All part types", state.filters.type);
+  refillSelect(els.brand, brandValues, "All brands", state.filters.brand);
+}
+
+function bindEvents() {
+  els.search.addEventListener("input", (event) => {
+    state.filters.query = event.target.value;
     applyFilters();
   });
 
-  elements.groupFilter.addEventListener("change", (event) => {
+  els.group.addEventListener("change", (event) => {
     state.filters.group = event.target.value;
+    updateFilterOptions();
     applyFilters();
   });
 
-  elements.typeFilter.addEventListener("change", (event) => {
+  els.type.addEventListener("change", (event) => {
     state.filters.type = event.target.value;
+    updateFilterOptions();
     applyFilters();
   });
 
-  elements.brandFilter.addEventListener("change", (event) => {
+  els.brand.addEventListener("change", (event) => {
     state.filters.brand = event.target.value;
     applyFilters();
   });
 
-  elements.inStockOnly.addEventListener("change", (event) => {
+  els.inStockOnly.addEventListener("change", (event) => {
     state.filters.inStockOnly = event.target.checked;
     applyFilters();
   });
 
-  elements.sortSelect.addEventListener("change", (event) => {
-    state.filters.sort = event.target.value;
+  els.reset.addEventListener("click", () => {
+    state.filters = {
+      group: "",
+      type: "",
+      brand: "",
+      inStockOnly: false,
+      query: ""
+    };
+
+    els.search.value = "";
+    els.inStockOnly.checked = false;
+
+    updateFilterOptions();
     applyFilters();
   });
-
-  elements.resetFiltersBtn.addEventListener("click", resetFilters);
 }
 
-attachEvents();
+async function loadCatalog() {
+  try {
+    const response = await fetch(CATALOG_URL, { cache: "no-store" });
+
+    if (!response.ok) {
+      throw new Error(`Failed to load catalog: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    state.items = Array.isArray(data) ? data : [];
+    updateFilterOptions();
+    applyFilters();
+  } catch (error) {
+    console.error(error);
+    els.grid.hidden = true;
+    els.empty.hidden = false;
+    els.empty.textContent = "Catalog failed to load.";
+    els.count.textContent = "0";
+  }
+}
+
+bindEvents();
 loadCatalog();

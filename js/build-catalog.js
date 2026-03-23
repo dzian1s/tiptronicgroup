@@ -24,7 +24,7 @@ function parseNumber(value) {
 function makeCardKey(item) {
   return [
     item.group,
-    item.type,
+    item.displayType,
     item.brand,
     item.article,
     item.name,
@@ -115,6 +115,30 @@ function getCell(cells, ...headerNames) {
   return "";
 }
 
+function cleanType(group, type) {
+  const g = normalizeText(group);
+  const t = normalizeText(type);
+
+  if (!t) return "";
+
+  if (g && t.toLowerCase().startsWith(g.toLowerCase())) {
+    return normalizeText(t.slice(g.length));
+  }
+
+  return t;
+}
+
+function prettifyType(value) {
+  const v = normalizeText(value);
+  if (!v) return "";
+
+  return v
+    .toLowerCase()
+    .split(/\s+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
 const rawItems = [];
 
 rows.each((index, row) => {
@@ -137,17 +161,23 @@ rows.each((index, row) => {
 
   if (!article && !name) return;
 
-  const item = {
-    group: getCell(cells, "Группа"),
-    type: getCell(cells, "Номенклатура.Группа"),
-    brand: getCell(cells, "Производитель", "Номенклатура.Производитель"),
-    article,
-    name,
-    image: getCell(cells, "Текстовое описание", "Номенклатура.Текстовое описание"),
-    warehouse: getCell(cells, "Склад"),
-    stock: parseNumber(getCell(cells, "Остаток")),
-    price
-  };
+    const rawGroup = getCell(cells, "Группа");
+    const rawType = getCell(cells, "Номенклатура.Группа");
+    const cleanedType = cleanType(rawGroup, rawType);
+
+    const item = {
+        group: rawGroup,
+        type: rawType,
+        displayType: prettifyType(cleanedType),
+        brand: getCell(cells, "Производитель", "Номенклатура.Производитель"),
+        article,
+        name,
+        image: getCell(cells, "Текстовое описание", "Номенклатура.Текстовое описание"),
+        warehouse: getCell(cells, "Склад"),
+        stock: parseNumber(getCell(cells, "Остаток")),
+        price
+    };
+
 
   rawItems.push(item);
 });
@@ -155,23 +185,24 @@ rows.each((index, row) => {
 const grouped = new Map();
 
 for (const item of rawItems) {
-  const key = makeCardKey(item);
+    const key = makeCardKey(item);
 
-  if (!grouped.has(key)) {
-    grouped.set(key, {
-      id: "",
-      group: item.group,
-      type: item.type,
-      brand: item.brand,
-      article: item.article,
-      name: item.name,
-      image: item.image,
-      price: item.price,
-      totalStock: 0,
-      available: false,
-      stocks: []
-    });
-  }
+    if (!grouped.has(key)) {
+        grouped.set(key, {
+            id: "",
+            group: item.group,
+            type: item.type,
+            displayType: item.displayType,
+            brand: item.brand,
+            article: item.article,
+            name: item.name,
+            image: item.image,
+            price: item.price,
+            totalStock: 0,
+            available: false,
+            stocks: []
+        });
+    }
 
   const card = grouped.get(key);
 
