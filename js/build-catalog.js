@@ -4,7 +4,7 @@ const cheerio = require("cheerio");
 
 const INPUT_FILE = path.join(__dirname, "..", "imports", "upload.htm");
 const OUTPUT_FILE = path.join(__dirname, "..", "data", "catalog.json");
-const IMAGE_BASE_URL = "http://45.149.206.33:8080";
+const IMAGE_BASE_URL = "https://img.tiptronicgroup.com";
 
 function makeImageUrl(rawPath) {
   const value = normalizeText(rawPath);
