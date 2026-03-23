@@ -90,9 +90,24 @@
 .catalog-checkbox {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
   margin-top: 18px;
   color: var(--text);
+}
+
+.catalog-checkbox input[type="checkbox"] {
+  margin: 0;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  accent-color: var(--accent);
+}
+
+.catalog-checkbox span,
+.catalog-checkbox label {
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .catalog-toolbar {
