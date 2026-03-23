@@ -21,6 +21,30 @@ function parseNumber(value) {
   return Number.isFinite(num) ? num : 0;
 }
 
+function cleanType(group, type) {
+  const g = normalizeText(group);
+  const t = normalizeText(type);
+
+  if (!t) return "";
+
+  if (g && t.toLowerCase().startsWith(g.toLowerCase())) {
+    return normalizeText(t.slice(g.length));
+  }
+
+  return t;
+}
+
+function prettifyType(value) {
+  const v = normalizeText(value);
+  if (!v) return "";
+
+  return v
+    .toLowerCase()
+    .split(/\s+/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
 function makeCardKey(item) {
   return [
     item.group,
@@ -115,30 +139,6 @@ function getCell(cells, ...headerNames) {
   return "";
 }
 
-function cleanType(group, type) {
-  const g = normalizeText(group);
-  const t = normalizeText(type);
-
-  if (!t) return "";
-
-  if (g && t.toLowerCase().startsWith(g.toLowerCase())) {
-    return normalizeText(t.slice(g.length));
-  }
-
-  return t;
-}
-
-function prettifyType(value) {
-  const v = normalizeText(value);
-  if (!v) return "";
-
-  return v
-    .toLowerCase()
-    .split(/\s+/)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
-
 const rawItems = [];
 
 rows.each((index, row) => {
@@ -161,23 +161,22 @@ rows.each((index, row) => {
 
   if (!article && !name) return;
 
-    const rawGroup = getCell(cells, "Группа");
-    const rawType = getCell(cells, "Номенклатура.Группа");
-    const cleanedType = cleanType(rawGroup, rawType);
+  const rawGroup = getCell(cells, "Группа");
+  const rawType = getCell(cells, "Номенклатура.Группа");
+  const cleanedType = cleanType(rawGroup, rawType);
 
-    const item = {
-        group: rawGroup,
-        type: rawType,
-        displayType: prettifyType(cleanedType),
-        brand: getCell(cells, "Производитель", "Номенклатура.Производитель"),
-        article,
-        name,
-        image: getCell(cells, "Текстовое описание", "Номенклатура.Текстовое описание"),
-        warehouse: getCell(cells, "Склад"),
-        stock: parseNumber(getCell(cells, "Остаток")),
-        price
-    };
-
+  const item = {
+    group: rawGroup,
+    type: rawType,
+    displayType: prettifyType(cleanedType),
+    brand: getCell(cells, "Производитель", "Номенклатура.Производитель"),
+    article,
+    name,
+    image: getCell(cells, "Текстовое описание", "Номенклатура.Текстовое описание"),
+    warehouse: getCell(cells, "Склад"),
+    stock: parseNumber(getCell(cells, "Остаток")),
+    price
+  };
 
   rawItems.push(item);
 });
@@ -185,32 +184,40 @@ rows.each((index, row) => {
 const grouped = new Map();
 
 for (const item of rawItems) {
-    const key = makeCardKey(item);
+  const key = makeCardKey(item);
 
-    if (!grouped.has(key)) {
-        grouped.set(key, {
-            id: "",
-            group: item.group,
-            type: item.type,
-            displayType: item.displayType,
-            brand: item.brand,
-            article: item.article,
-            name: item.name,
-            image: item.image,
-            price: item.price,
-            totalStock: 0,
-            available: false,
-            stocks: []
-        });
-    }
+  if (!grouped.has(key)) {
+    grouped.set(key, {
+      id: "",
+      group: item.group,
+      type: item.type,
+      displayType: item.displayType,
+      brand: item.brand,
+      article: item.article,
+      name: item.name,
+      image: item.image,
+      price: item.price,
+      totalStock: 0,
+      available: false,
+      stocks: []
+    });
+  }
 
   const card = grouped.get(key);
 
   if (item.warehouse) {
-    card.stocks.push({
-      warehouse: item.warehouse,
-      qty: item.stock
-    });
+    const existingWarehouse = card.stocks.find(
+      (stock) => normalizeText(stock.warehouse) === normalizeText(item.warehouse)
+    );
+
+    if (existingWarehouse) {
+      existingWarehouse.qty += item.stock;
+    } else {
+      card.stocks.push({
+        warehouse: item.warehouse,
+        qty: item.stock
+      });
+    }
   }
 
   card.totalStock += item.stock;
@@ -219,7 +226,7 @@ for (const item of rawItems) {
 
 const result = Array.from(grouped.values()).map((item, index) => {
   const base = safeId(
-    `${item.group}-${item.type}-${item.article}-${item.price}`
+    `${item.group}-${item.displayType}-${item.article}-${item.price}`
   );
 
   return {
@@ -230,9 +237,9 @@ const result = Array.from(grouped.values()).map((item, index) => {
 
 result.sort((a, b) => {
   return (
-    a.group.localeCompare(b.group, "ru") ||
-    a.type.localeCompare(b.type, "ru") ||
-    a.name.localeCompare(b.name, "ru")
+    normalizeText(a.group).localeCompare(normalizeText(b.group), "ru") ||
+    normalizeText(a.displayType).localeCompare(normalizeText(b.displayType), "ru") ||
+    normalizeText(a.name).localeCompare(normalizeText(b.name), "ru")
   );
 });
 
