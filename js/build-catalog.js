@@ -4,6 +4,17 @@ const cheerio = require("cheerio");
 
 const INPUT_FILE = path.join(__dirname, "..", "imports", "upload.htm");
 const OUTPUT_FILE = path.join(__dirname, "..", "data", "catalog.json");
+const IMAGE_BASE_URL = "http://45.149.206.33:8080";
+
+function makeImageUrl(rawPath) {
+  const value = normalizeText(rawPath);
+  if (!value) return "";
+
+  const fileName = value.split("/").filter(Boolean).pop();
+  if (!fileName) return "";
+
+  return `${IMAGE_BASE_URL}/${fileName}`;
+}
 
 function normalizeText(value) {
   if (value === null || value === undefined) return "";
@@ -165,18 +176,20 @@ rows.each((index, row) => {
   const rawType = getCell(cells, "Номенклатура.Группа");
   const cleanedType = cleanType(rawGroup, rawType);
 
-  const item = {
-    group: rawGroup,
-    type: rawType,
-    displayType: prettifyType(cleanedType),
-    brand: getCell(cells, "Производитель", "Номенклатура.Производитель"),
-    article,
-    name,
-    image: getCell(cells, "Текстовое описание", "Номенклатура.Текстовое описание"),
-    warehouse: getCell(cells, "Склад"),
-    stock: parseNumber(getCell(cells, "Остаток")),
-    price
-  };
+    const item = {
+        group: rawGroup,
+        type: rawType,
+        displayType: prettifyType(cleanedType),
+        brand: getCell(cells, "Производитель", "Номенклатура.Производитель"),
+        article,
+        name,
+        image: makeImageUrl(
+            getCell(cells, "Текстовое описание", "Номенклатура.Текстовое описание")
+        ),
+        warehouse: getCell(cells, "Склад"),
+        stock: parseNumber(getCell(cells, "Остаток")),
+        price
+    };
 
   rawItems.push(item);
 });
