@@ -1,0 +1,826 @@
+[
+  {
+    "id": "01m-01n-01p-096-01m-01n-01p-096-filters-pan-gaskets-tg01m325429-6-1",
+    "group": "01M 01N 01P 096",
+    "type": "01M 01N 01P 096 FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG01M325429",
+    "name": "Filter 01M/01N/01P",
+    "image": "/AllPhoto/TG01M325429.jpg",
+    "price": 6,
+    "totalStock": 5,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 5
+      }
+    ]
+  },
+  {
+    "id": "01m-01n-01p-096-01m-01n-01p-096-filters-pan-gaskets-tgkit01m-19-3",
+    "group": "01M 01N 01P 096",
+    "type": "01M 01N 01P 096 FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TGKIT01M",
+    "name": "Filter kit with pan gasket 01M",
+    "image": "/AllPhoto/TGKIT01M.jpg",
+    "price": 19,
+    "totalStock": 3,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "id": "01m-01n-01p-096-01m-01n-01p-096-filters-pan-gaskets-tg096321370-3-45-2",
+    "group": "01M 01N 01P 096",
+    "type": "01M 01N 01P 096 FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG096321370",
+    "name": "Gasket oil pan VW 095,096,01M , RENAULT AD-4",
+    "image": "/AllPhoto/TG096321370.jpg",
+    "price": 3.45,
+    "totalStock": 5,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 5
+      }
+    ]
+  },
+  {
+    "id": "02e-6-speed-dsg-dq250-02e-6-speed-dsg-dq250-filters-pan-gaskets-tg02e398051-9-01-5",
+    "group": "02E (6 SPEED) DSG DQ250",
+    "type": "02E (6 SPEED) DSG DQ250 FILTERS PAN GASKETS",
+    "brand": "ALTO",
+    "article": "TG02E398051",
+    "name": "External filter",
+    "image": "/AllPhoto/TG02E398051.jpg",
+    "price": 9.01,
+    "totalStock": 4,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 4
+      }
+    ]
+  },
+  {
+    "id": "02e-6-speed-dsg-dq250-02e-6-speed-dsg-dq250-o-rings-oil-seals-gaskets-covers-tg02e301205b-42-7-4",
+    "group": "02E (6 SPEED) DSG DQ250",
+    "type": "02E (6 SPEED) DSG DQ250 O-RINGS OIL SEALS GASKETS COVERS",
+    "brand": "ALTO",
+    "article": "TG02E301205B",
+    "name": "Front cover 02E",
+    "image": "/AllPhoto/TG02E301205B.jpg",
+    "price": 42.7,
+    "totalStock": 1,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Amazon",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "09g-09k-tf60sn-09g-09k-tf60sn-filters-pan-gaskets-tg09g321370-4-56-6",
+    "group": "09G 09K TF60SN",
+    "type": "09G 09K TF60SN FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG09G321370",
+    "name": "Gasket VW/AUDI 09G 03-05",
+    "image": "/AllPhoto/TG09G321370.jpg",
+    "price": 4.56,
+    "totalStock": 5,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 5
+      }
+    ]
+  },
+  {
+    "id": "0b5-dl501-7-speed-0b5-dl501-7-speed-filters-pan-gaskets-tg0b5325429e-13-88-9",
+    "group": "0B5 DL501 (7 SPEED)",
+    "type": "0B5 DL501 (7 SPEED) FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG0B5325429E",
+    "name": "Filter 0B5 S-Tronic 7sp 08+",
+    "image": "/AllPhoto/TG0B5325429E.jpg",
+    "price": 13.88,
+    "totalStock": 3,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "id": "0b5-dl501-7-speed-0b5-dl501-7-speed-filters-pan-gaskets-tg0b5325330a-10-8",
+    "group": "0B5 DL501 (7 SPEED)",
+    "type": "0B5 DL501 (7 SPEED) FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG0B5325330A",
+    "name": "Filter W/SEAL",
+    "image": "/AllPhoto/TG0B5325330A.jpg",
+    "price": 10,
+    "totalStock": 5,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 5
+      }
+    ]
+  },
+  {
+    "id": "0b5-dl501-7-speed-0b5-dl501-7-speed-filters-pan-gaskets-tg0b5321371f-15-7",
+    "group": "0B5 DL501 (7 SPEED)",
+    "type": "0B5 DL501 (7 SPEED) FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG0B5321371F",
+    "name": "Gasket oil pan",
+    "image": "/AllPhoto/TG0B5321371F.jpg",
+    "price": 15,
+    "totalStock": 5,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 5
+      }
+    ]
+  },
+  {
+    "id": "0bh-0bt-0de-0dd-0dl-0gc-dq500-0bh-0bt-0de-0dd-0dl-0gc-dq500-filters-pan-gaskets-tg0bh325183c-1-11-71-10",
+    "group": "0BH 0BT 0DE 0DD 0DL 0GC DQ500",
+    "type": "0BH 0BT 0DE 0DD 0DL 0GC DQ500 FILTERS PAN GASKETS",
+    "brand": "ALTO",
+    "article": "TG0BH325183C-1",
+    "name": "Filter external",
+    "image": "/AllPhoto/TG0BH325183C-1.jpg",
+    "price": 11.71,
+    "totalStock": 5,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 5
+      }
+    ]
+  },
+  {
+    "id": "0bh-0bt-0de-0dd-0dl-0gc-dq500-0bh-0bt-0de-0dd-0dl-0gc-dq500-o-rings-oil-seals-gaskets-covers-tg0bh301205d-2-55-11",
+    "group": "0BH 0BT 0DE 0DD 0DL 0GC DQ500",
+    "type": "0BH 0BT 0DE 0DD 0DL 0GC DQ500 O-RINGS OIL SEALS GASKETS COVERS",
+    "brand": "OEM",
+    "article": "TG0BH301205D-2",
+    "name": "Front cover 0BH",
+    "image": "/AllPhoto/TG0BH301205D-2.jpg",
+    "price": 55,
+    "totalStock": 1,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Amazon",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "0bh-0bt-0de-0dd-0dl-0gc-dq500-0bh-0bt-0de-0dd-0dl-0gc-dq500-o-rings-oil-seals-gaskets-covers-tg0gc301205b-1-46-32-12",
+    "group": "0BH 0BT 0DE 0DD 0DL 0GC DQ500",
+    "type": "0BH 0BT 0DE 0DD 0DL 0GC DQ500 O-RINGS OIL SEALS GASKETS COVERS",
+    "brand": "OEM",
+    "article": "TG0GC301205B-1",
+    "name": "Front cover 0GC",
+    "image": "/AllPhoto/TG0GC301205B-1.jpg",
+    "price": 46.32,
+    "totalStock": 1,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "0bh-0bt-0de-0dd-0dl-0gc-dq500-0bh-0bt-0de-0dd-0dl-0gc-dq500-o-rings-oil-seals-gaskets-covers-tg0gc301205b-2-44-22-13",
+    "group": "0BH 0BT 0DE 0DD 0DL 0GC DQ500",
+    "type": "0BH 0BT 0DE 0DD 0DL 0GC DQ500 O-RINGS OIL SEALS GASKETS COVERS",
+    "brand": "OEM",
+    "article": "TG0GC301205B-2",
+    "name": "Front cover 0GC",
+    "image": "/AllPhoto/TG0GC301205B-2.jpg",
+    "price": 44.22,
+    "totalStock": 2,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Warsaw",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "id": "0ck-dsg-dl3820cl-0cj-7-speed-0ck-dsg-dl3820cl-0cj-7-speed-filters-pan-gaskets-tg0ck325421a-18-14",
+    "group": "0CK DSG DL3820CL 0CJ (7 SPEED)",
+    "type": "0CK DSG DL3820CL 0CJ (7 SPEED) FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG0CK325421A",
+    "name": "Filter 0CK S-Tronic",
+    "image": "/AllPhoto/TG0CK325421A.jpg",
+    "price": 18,
+    "totalStock": 2,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "id": "10r80-10r80-filters-pan-gaskets-tg5430977-30-15",
+    "group": "10R80",
+    "type": "10R80 FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG5430977",
+    "name": "Filter",
+    "image": "/AllPhoto/TG5430977.jpg",
+    "price": 30,
+    "totalStock": 1,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "4hp20-4hp20-filters-pan-gaskets-tg226328-9-13-16",
+    "group": "4HP20",
+    "type": "4HP20 FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG226328",
+    "name": "Filter ZF4HP20 PEUGEOT PSA 4SP 98+",
+    "image": "/AllPhoto/TG226328.jpg",
+    "price": 9.13,
+    "totalStock": 2,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "id": "4t65e-4t65e-filters-pan-gaskets-tg30681088-6-65-17",
+    "group": "4T65E",
+    "type": "4T65E FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG30681088",
+    "name": "Filter 4T60E 91+ / 4T65E 97+",
+    "image": "/AllPhoto/TG30681088.jpg",
+    "price": 6.65,
+    "totalStock": 3,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Amazon",
+        "qty": 1
+      },
+      {
+        "warehouse": "Lisbon",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "id": "5l40e-5l40e-filters-pan-gaskets-tg24117524707-13-18",
+    "group": "5L40E",
+    "type": "5L40E FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG24117524707",
+    "name": "Gasket oil pan",
+    "image": "/AllPhoto/TG24117524707.jpg",
+    "price": 13,
+    "totalStock": 4,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 4
+      }
+    ]
+  },
+  {
+    "id": "6dct450-mps6-dsg-6-speed-6dct450-mps6-dsg-6-speed-filters-pan-gaskets-tg7m5r7g186ab-9-39-19",
+    "group": "6DCT450 MPS6 (DSG 6 SPEED)",
+    "type": "6DCT450 MPS6 (DSG 6 SPEED) FILTERS PAN GASKETS",
+    "brand": "ALTO",
+    "article": "TG7M5R7G186AB",
+    "name": "Filter FORD GETRAG MPS6 6DCT450 08+ INTERNAL",
+    "image": "/AllPhoto/TG7M5R7G186AB.jpg",
+    "price": 9.39,
+    "totalStock": 1,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "6dct450-mps6-dsg-6-speed-6dct450-mps6-dsg-6-speed-o-rings-oil-seals-gaskets-covers-tg31256729-1-50-2-20",
+    "group": "6DCT450 MPS6 (DSG 6 SPEED)",
+    "type": "6DCT450 MPS6 (DSG 6 SPEED) O-RINGS OIL SEALS GASKETS COVERS",
+    "brand": "ALTO",
+    "article": "TG31256729-1",
+    "name": "Cover GETRAG DCT450 W/SPRING",
+    "image": "/AllPhoto/TG31256729-1.jpg",
+    "price": 50.2,
+    "totalStock": 2,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Amazon",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "id": "6dct451-mps6i-dw6-6dct451-mps6i-dw6-o-rings-oil-seals-gaskets-covers-tg1848702-81-21",
+    "group": "6DCT451 MPS6I DW6",
+    "type": "6DCT451 MPS6I DW6 O-RINGS OIL SEALS GASKETS COVERS",
+    "brand": "OEM",
+    "article": "TG1848702",
+    "name": "Front cover",
+    "image": "/AllPhoto/TG1848702.jpg",
+    "price": 81,
+    "totalStock": 2,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 1
+      },
+      {
+        "warehouse": "Warsaw",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "6dct470-sps6-6dct470-sps6-filters-pan-gaskets-tg7u3r-7g186-ab-10-8-22",
+    "group": "6DCT470 SPS6",
+    "type": "6DCT470 SPS6 FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG7U3R-7G186-AB",
+    "name": "Filter MITS GETRAG DCT470/SPS6 09+ INTERNAL",
+    "image": "/AllPhoto/TG7U3R-7G186-AB.jpg",
+    "price": 10.8,
+    "totalStock": 3,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 1
+      },
+      {
+        "warehouse": "Warsaw",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "id": "6dct470-sps6-6dct470-sps6-o-rings-oil-seals-gaskets-covers-tgs2502a034-91-27-23",
+    "group": "6DCT470 SPS6",
+    "type": "6DCT470 SPS6 O-RINGS OIL SEALS GASKETS COVERS",
+    "brand": "ALTO",
+    "article": "TGS2502A034",
+    "name": "Cover DCT470 MITS.",
+    "image": "/AllPhoto/TGS2502A034.jpg",
+    "price": 91.27,
+    "totalStock": 2,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 1
+      },
+      {
+        "warehouse": "Warsaw",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "6hp26-6hp32-6hp26-6hp32-hard-parts-tg24117571202-97-24",
+    "group": "6HP26 6HP32",
+    "type": "6HP26 6HP32 HARD PARTS",
+    "brand": "",
+    "article": "TG24117571202",
+    "name": "KIT OIL PAN ZF6HP26 6HP32 07+",
+    "image": "/AllPhoto/TG24117571202.jpg",
+    "price": 97,
+    "totalStock": 1,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "6l45-6l50-ga6l45r-e-6l45-6l50-ga6l45r-e-filters-pan-gaskets-tg24152357284-10-35-25",
+    "group": "6L45 6L50 GA6L45R/E",
+    "type": "6L45 6L50 GA6L45R/E FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG24152357284",
+    "name": "Filter 6L45R/E BMW X3 07+",
+    "image": "/AllPhoto/TG24152357284.jpg",
+    "price": 10.35,
+    "totalStock": 1,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "6t40e-6t40e-filters-pan-gaskets-tg4802258-10-65-26",
+    "group": "6T40E",
+    "type": "6T40E FILTERS PAN GASKETS",
+    "brand": "ALTO",
+    "article": "TG4802258",
+    "name": "Filter 6T40/45E 08+",
+    "image": "/AllPhoto/TG4802258.jpg",
+    "price": 10.65,
+    "totalStock": 3,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "id": "722-8-722-8-o-rings-oil-seals-gaskets-tg0139971946-5-27",
+    "group": "722.8",
+    "type": "722.8 O-RINGS OIL SEALS GASKETS",
+    "brand": "",
+    "article": "TG0139971946",
+    "name": "Oil seal 722.8, 724.0 - housing, axle shaft",
+    "image": "/AllPhoto/TG0139971946.jpg",
+    "price": 5,
+    "totalStock": 4,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 4
+      }
+    ]
+  },
+  {
+    "id": "724-0-724-0-sps6-o-rings-oil-seals-gaskets-covers-tg2463700121-105-28",
+    "group": "724.0",
+    "type": "724.0 SPS6 O-RINGS OIL SEALS GASKETS COVERS",
+    "brand": "OEM",
+    "article": "TG2463700121",
+    "name": "Front cover, DCT 724.0 - 7G-DCT",
+    "image": "/AllPhoto/TG2463700121.jpg",
+    "price": 105,
+    "totalStock": 2,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 1
+      },
+      {
+        "warehouse": "Warsaw",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "a604-41te-a604-41te-filters-pan-gaskets-tg4504048-4-85-29",
+    "group": "A604 41TE",
+    "type": "A604 41TE FILTERS PAN GASKETS",
+    "brand": "ALTO",
+    "article": "TG4504048",
+    "name": "Filter",
+    "image": "/AllPhoto/TG4504048.jpg",
+    "price": 4.85,
+    "totalStock": 3,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "id": "cd4e-cd4e-o-rings-oil-seals-gaskets-tgfw5119202-7-30",
+    "group": "CD4E",
+    "type": "CD4E O-RINGS OIL SEALS GASKETS",
+    "brand": "",
+    "article": "TGFW5119202",
+    "name": "Metal clad seal front",
+    "image": "/AllPhoto/TGFW5119202.jpg",
+    "price": 7,
+    "totalStock": 2,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "id": "coolers-cooler-kits-tg405-57-33",
+    "group": "COOLERS",
+    "type": "COOLER KITS",
+    "brand": "",
+    "article": "TG405",
+    "name": "COOLER .75\"X10\"X15.875\"X12.125\"",
+    "image": "/AllPhoto/TG405.jpg",
+    "price": 57,
+    "totalStock": 2,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Amazon",
+        "qty": 1
+      },
+      {
+        "warehouse": "Lisbon",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "coolers-cooler-kits-tg403-1-43-31",
+    "group": "COOLERS",
+    "type": "COOLER KITS",
+    "brand": "",
+    "article": "TG403-1",
+    "name": "COOLER .75\"X5\"X12.5\"X8.75\"W",
+    "image": "/AllPhoto/TG403-1.jpg",
+    "price": 43,
+    "totalStock": 2,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Amazon",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "id": "coolers-cooler-kits-tg404-2-36-35-32",
+    "group": "COOLERS",
+    "type": "COOLER KITS",
+    "brand": "",
+    "article": "TG404-2",
+    "name": "COOLER .75\"X5\"X15.875\"X12.125\"",
+    "image": "/AllPhoto/TG404-2.jpg",
+    "price": 36.35,
+    "totalStock": 2,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Amazon",
+        "qty": 1
+      },
+      {
+        "warehouse": "Lisbon",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "dp0-al4-dp0-al4-band-tg7700101414-o-1-57-06-36",
+    "group": "DP0 AL4",
+    "type": "DP0 AL4 BAND",
+    "brand": "OEM",
+    "article": "TG7700101414-O-1",
+    "name": "Band OEM",
+    "image": "/AllPhoto/TG7700101414-O-1.jpg",
+    "price": 57.06,
+    "totalStock": 2,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Amazon",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "id": "dp0-al4-dp0-al4-filter-gasket-tg229960-11-18-35",
+    "group": "DP0 AL4",
+    "type": "DP0 AL4 FILTER GASKET",
+    "brand": "",
+    "article": "TG229960",
+    "name": "Filter",
+    "image": "/AllPhoto/TG229960.jpg",
+    "price": 11.18,
+    "totalStock": 2,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "id": "dp0-al4-dp0-al4-filter-gasket-tg220940-3-8-34",
+    "group": "DP0 AL4",
+    "type": "DP0 AL4 FILTER GASKET",
+    "brand": "",
+    "article": "TG220940",
+    "name": "Gasket pan DPO 98-06",
+    "image": "/AllPhoto/TG220940.jpg",
+    "price": 3.8,
+    "totalStock": 6,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Amazon",
+        "qty": 6
+      }
+    ]
+  },
+  {
+    "id": "ghemicals-0ils-liquids-ghemicals-0ils-liquids-assemblee-g00-tg19250-1-17-37",
+    "group": "GHEMICALS 0ILS LIQUIDS",
+    "type": "GHEMICALS 0ILS LIQUIDS.ASSEMBLEE G00",
+    "brand": "",
+    "article": "TG19250-1",
+    "name": "LG CS DR TRANNY GOO 19250 1/CS",
+    "image": "/AllPhoto/TG19250-1.jpg",
+    "price": 17,
+    "totalStock": 3,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "id": "jf011e-re0f10a-jf011e-re0f10a-filters-pan-gaskets-tg317261xf00-6-11-38",
+    "group": "JF011E RE0F10A",
+    "type": "JF011E RE0F10A FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG317261XF00",
+    "name": "Filter JF010E(RE0F09A/B) JF011E (RE0F10A) CARTRIDGE",
+    "image": "/AllPhoto/TG317261XF00.jpg",
+    "price": 6.11,
+    "totalStock": 5,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 5
+      }
+    ]
+  },
+  {
+    "id": "jf011e-re0f10a-jf011e-re0f10a-filters-pan-gaskets-tg317283tx0a-12-08-41",
+    "group": "JF011E RE0F10A",
+    "type": "JF011E RE0F10A FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG317283TX0A",
+    "name": "Filter JF011E RE0F10A ROUND INLET JUKE 11-16",
+    "image": "/AllPhoto/TG317283TX0A.jpg",
+    "price": 12.08,
+    "totalStock": 5,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 3
+      },
+      {
+        "warehouse": "Warsaw",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "id": "jf011e-re0f10a-jf011e-re0f10a-filters-pan-gaskets-tg317281xf03-9-11-39",
+    "group": "JF011E RE0F10A",
+    "type": "JF011E RE0F10A FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG317281XF03",
+    "name": "Filter JF011E, JF016E, JF017E 26.8 mm SQUARE INLET 03+",
+    "image": "/AllPhoto/TG317281XF03.jpg",
+    "price": 9.11,
+    "totalStock": 3,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "id": "jf011e-re0f10a-jf011e-re0f10a-filters-pan-gaskets-tg317281xz0d-8-82-40",
+    "group": "JF011E RE0F10A",
+    "type": "JF011E RE0F10A FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG317281XZ0D",
+    "name": "Filter RE0F10A, JF011E 17.2mm SQUARE INLET",
+    "image": "/AllPhoto/TG317281XZ0D.jpg",
+    "price": 8.82,
+    "totalStock": 3,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "id": "jf015e-re0f11a-jf015e-re0f11a-filters-pan-gaskets-tg317266a00a-9-8-43",
+    "group": "JF015E RE0F11A",
+    "type": "JF015E RE0F11A FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG317266A00A",
+    "name": "Filer JF015E RE0F11A CVT 10+",
+    "image": "/AllPhoto/TG317266A00A.jpg",
+    "price": 9.8,
+    "totalStock": 3,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "id": "jf015e-re0f11a-jf015e-re0f11a-filters-pan-gaskets-tg317263jx0a-10-81-42",
+    "group": "JF015E RE0F11A",
+    "type": "JF015E RE0F11A FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TG317263JX0A",
+    "name": "Filter CARTRIDGE JF015E (RE0F11A),JF016E(RE0F10D),JF017E(RE0F10E)",
+    "image": "/AllPhoto/TG317263JX0A.jpg",
+    "price": 10.81,
+    "totalStock": 3,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "id": "tf80sc-tf81sc-tf80sc-tf81sc-filters-pan-gaskets-tgb11552-6-44",
+    "group": "TF80SC,TF81SC",
+    "type": "TF80SC,TF81SC FILTERS PAN GASKETS",
+    "brand": "",
+    "article": "TGB11552",
+    "name": "Gasket oil pan (11 BOLTS)",
+    "image": "/AllPhoto/TGB11552.jpg",
+    "price": 6,
+    "totalStock": 3,
+    "available": true,
+    "stocks": [
+      {
+        "warehouse": "Lisbon",
+        "qty": 3
+      }
+    ]
+  }
+]

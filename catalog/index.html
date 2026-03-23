@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catalog | Tiptronic Group</title>
+  <meta name="description" content="Automatic transmission parts catalog with filters by transmission family, item type, and manufacturer." />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/catalog.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="../index.html#top" class="brand">
+        <span class="brand-logo">
+          <img src="../assets/images/carClear.png" alt="Tiptronic Group logo" />
+        </span>
+        <span>Tiptronic Group</span>
+      </a>
+      <nav class="nav-links">
+        <a href="../index.html#products">Products</a>
+        <a href="../index.html#about">How It Works</a>
+        <a href="../index.html#order">Order</a>
+        <a href="../index.html#contacts">Contact</a>
+        <a href="./" aria-current="page">Catalog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section catalog-hero">
+      <div class="container">
+        <p class="catalog-kicker">Automatic Transmission Parts</p>
+        <h1 class="section-title">Catalog</h1>
+        <p class="section-text catalog-hero-text">
+          Browse parts by transmission family and item type. Availability is shown by warehouse. Delivery details are clarified during order processing.
+        </p>
+      </div>
+    </section>
+
+    <section class="section catalog-section">
+      <div class="container catalog-layout">
+        <aside class="catalog-sidebar">
+          <div class="catalog-panel sticky-panel">
+            <div class="catalog-panel-head">
+              <h2>Filters</h2>
+              <button class="catalog-reset" id="resetFiltersBtn" type="button">Reset</button>
+            </div>
+
+            <div class="catalog-filter-group">
+              <label class="catalog-filter-label" for="searchInput">Search</label>
+              <input id="searchInput" class="catalog-input" type="search" placeholder="Article or part name" />
+            </div>
+
+            <div class="catalog-filter-group">
+              <label class="catalog-filter-label" for="groupFilter">Transmission family</label>
+              <select id="groupFilter" class="catalog-select">
+                <option value="">All</option>
+              </select>
+            </div>
+
+            <div class="catalog-filter-group">
+              <label class="catalog-filter-label" for="typeFilter">Item type</label>
+              <select id="typeFilter" class="catalog-select">
+                <option value="">All</option>
+              </select>
+            </div>
+
+            <div class="catalog-filter-group">
+              <label class="catalog-filter-label" for="brandFilter">Manufacturer</label>
+              <select id="brandFilter" class="catalog-select">
+                <option value="">All</option>
+              </select>
+            </div>
+
+            <label class="catalog-checkbox">
+              <input id="inStockOnly" type="checkbox" />
+              <span>Only in stock</span>
+            </label>
+          </div>
+        </aside>
+
+        <div class="catalog-main">
+          <div class="catalog-toolbar catalog-panel">
+            <div>
+              <strong id="resultsCount">0 items</strong>
+              <p class="catalog-toolbar-subtext">Grouped by product card; warehouse balances are shown inside each card.</p>
+            </div>
+            <div class="catalog-toolbar-actions">
+              <select id="sortSelect" class="catalog-select catalog-sort">
+                <option value="group-asc">Group A–Z</option>
+                <option value="price-asc">Price: low to high</option>
+                <option value="price-desc">Price: high to low</option>
+                <option value="name-asc">Name A–Z</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="catalogState" class="catalog-state">Loading catalog...</div>
+          <div id="catalogGrid" class="catalog-grid" hidden></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/catalog.js"></script>
+</body>
+</html>

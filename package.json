@@ -1,0 +1,12 @@
+{
+  "name": "tiptronicgroup-catalog-build",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:catalog": "node js/build-catalog.js",
+    "build": "npm run build:catalog"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  }
+}

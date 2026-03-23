@@ -1,0 +1,64 @@
+[
+  {
+    "id": "dq250-pan-gasket-001",
+    "group": "DQ250",
+    "type": "PAN GASKETS",
+    "brand": "TransGold",
+    "article": "TG01M325429",
+    "name": "Oil pan gasket DQ250",
+    "image": "../assets/images/photo_2023-08-19_19-48-54.jpg",
+    "description": "Sample card. Later this field can be removed or filled from a separate source.",
+    "price": 49,
+    "currency": "EUR",
+    "stocks": [
+      { "warehouse": "Amazon", "qty": 2 },
+      { "warehouse": "Lisbon", "qty": 1 }
+    ]
+  },
+  {
+    "id": "dq250-filter-001",
+    "group": "DQ250",
+    "type": "FILTERS",
+    "brand": "Sonnax",
+    "article": "SNX-DQ250-F01",
+    "name": "Filter kit DQ250",
+    "image": "../assets/images/photo_2026-03-22_18-32-29.jpg",
+    "description": "Example of another item type inside the same transmission family.",
+    "price": 79,
+    "currency": "EUR",
+    "stocks": [
+      { "warehouse": "Amazon", "qty": 0 },
+      { "warehouse": "Warsaw", "qty": 3 }
+    ]
+  },
+  {
+    "id": "zf6hp19-seal-001",
+    "group": "ZF 6HP19",
+    "type": "SEALS",
+    "brand": "ZF",
+    "article": "ZF-6HP19-SL01",
+    "name": "Seal set ZF 6HP19",
+    "image": "../assets/images/H7d2a8d9aaca143fbb1504a8b7ad0f94e5.jpg",
+    "description": "Example of another transmission family.",
+    "price": 65,
+    "currency": "EUR",
+    "stocks": [
+      { "warehouse": "Lisbon", "qty": 4 }
+    ]
+  },
+  {
+    "id": "7226-solenoid-001",
+    "group": "722.6",
+    "type": "SOLENOIDS",
+    "brand": "",
+    "article": "7226-SOL-09",
+    "name": "Solenoid 722.6",
+    "image": "",
+    "description": "Example without brand and without image path.",
+    "price": 120,
+    "currency": "EUR",
+    "stocks": [
+      { "warehouse": "Amazon", "qty": 0 }
+    ]
+  }
+]
