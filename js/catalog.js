@@ -17,17 +17,17 @@ const state = {
 };
 
 const els = {
-    grid: document.getElementById("catalogGrid"),
-    state: document.getElementById("catalogState"),
-    count: document.getElementById("resultsCount"),
-    search: document.getElementById("searchInput"),
-    group: document.getElementById("groupFilter"),
-    type: document.getElementById("typeFilter"),
-    brand: document.getElementById("brandFilter"),
-    inStockOnly: document.getElementById("inStockOnly"),
-    cartBadge: document.getElementById("cartBadge"),
-    reset: document.getElementById("resetFiltersBtn"),
-    sort: document.getElementById("sortSelect")
+  grid: document.getElementById("catalogGrid"),
+  state: document.getElementById("catalogState"),
+  count: document.getElementById("resultsCount"),
+  search: document.getElementById("searchInput"),
+  group: document.getElementById("groupFilter"),
+  type: document.getElementById("typeFilter"),
+  brand: document.getElementById("brandFilter"),
+  inStockOnly: document.getElementById("inStockOnly"),
+  cartBadge: document.getElementById("cartBadge"),
+  reset: document.getElementById("resetFiltersBtn"),
+  sort: document.getElementById("sortSelect")
 };
 
 function updateCartBadge() {
@@ -76,11 +76,6 @@ function buildBadges(item) {
 function resolveImageSrc(item) {
   const raw = normalizeText(item.image);
   if (!raw) return FALLBACK_IMAGE;
-
-  if (raw.startsWith("/AllPhoto/")) {
-    return raw;
-  }
-
   return raw;
 }
 
@@ -113,7 +108,7 @@ function buildCard(item) {
     ? `<div class="catalog-card__meta">${escapeHtml(item.brand)}</div>`
     : "";
 
-    const inCartQty = getCartItemQty(item.id);
+  const inCartQty = getCartItemQty(item.id);
   const availableQty = Math.max(0, Number(item.totalStock) || 0);
   const canAddMore = availableQty > 0 && inCartQty < availableQty;
 
@@ -154,8 +149,8 @@ function buildCard(item) {
       <div class="catalog-card__body">
         <div class="card-badges">
           ${badges
-                  .map((badge) => `<span class="card-badge">${escapeHtml(badge)}</span>`)
-                  .join("")}
+            .map((badge) => `<span class="card-badge">${escapeHtml(badge)}</span>`)
+            .join("")}
         </div>
 
         <h3 class="catalog-card__title">${escapeHtml(item.name || "Unnamed item")}</h3>
@@ -176,24 +171,38 @@ function buildCard(item) {
         </div>
 
         ${actionBlock}
-
-     </div>
+      </div>
     </article>
   `;
 }
 
 function renderCatalog(items) {
-    els.grid.innerHTML = items.map(buildCard).join("");
-    els.grid.querySelectorAll("[data-add-to-cart]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-            const item = state.items.find((x) => x.id === btn.dataset.addToCart);
-            if (!item) return;
-            addToCart(item);
-            updateCartBadge();
-            btn.textContent = "Add one more";
-        });
+  els.grid.innerHTML = items.map(buildCard).join("");
+  els.count.textContent = `${items.length} items`;
+
+  els.grid.querySelectorAll("[data-add-to-cart]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = state.items.find((x) => x.id === btn.dataset.addToCart);
+      if (!item) return;
+
+      const added = addToCart(item);
+      updateCartBadge();
+
+      if (!added) {
+        btn.textContent = "Max in cart";
+        btn.disabled = true;
+        return;
+      }
+
+      const inCartQty = getCartItemQty(item.id);
+      const availableQty = Math.max(0, Number(item.totalStock) || 0);
+
+      if (inCartQty >= availableQty) {
+        btn.textContent = "Max in cart";
+        btn.disabled = true;
+      }
     });
-    els.count.textContent = `${items.length} items`;
+  });
 
   const isEmpty = items.length === 0;
   els.state.hidden = !isEmpty;
@@ -392,7 +401,7 @@ async function loadCatalog() {
   try {
     const response = await fetch(CATALOG_URL, { cache: "no-store" });
 
- import { addToCart, getCartCount, isInCart } from "./cart.js";   if (!response.ok) {
+    if (!response.ok) {
       throw new Error(`Failed to load catalog: ${response.status}`);
     }
 
