@@ -125,45 +125,53 @@ function render() {
 }
 
 function bindItemEvents() {
-  document.querySelectorAll("[data-remove-id]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      removeFromCart(btn.dataset.removeId);
-      render();
+    document.querySelectorAll("[data-remove-id]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            removeFromCart(btn.dataset.removeId);
+            render();
+        });
     });
-  });
 
-  document.querySelectorAll("[data-qty-id]").forEach((input) => {
-    input.addEventListener("change", () => {
-      updateCartQty(input.dataset.qtyId, input.value);
-      render();
+    document.querySelectorAll("[data-qty-id]").forEach((input) => {
+        input.addEventListener("change", () => {
+            updateCartQty(input.dataset.qtyId, input.value);
+            render();
+        });
     });
-  });
 
-  document.querySelectorAll("[data-qty-decrease]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.qtyDecrease;
-      const cart = getCart();
-      const item = cart.find((x) => x.id === id);
-      if (!item) return;
+    document.querySelectorAll("[data-qty-decrease]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const id = btn.dataset.qtyDecrease;
+            const cart = getCart();
+            const item = cart.find((x) => x.id === id);
+            if (!item) return;
 
-      const nextQty = Math.max(1, (Number(item.qty) || 1) - 1);
-      updateCartQty(id, nextQty);
-      render();
+            const nextQty = Math.max(1, (Number(item.qty) || 1) - 1);
+            btn.blur();
+            updateCartQty(id, nextQty);
+            render();
+        });
     });
-  });
 
-  document.querySelectorAll("[data-qty-increase]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.qtyIncrease;
-      const cart = getCart();
-      const item = cart.find((x) => x.id === id);
-      if (!item) return;
+    document.querySelectorAll("[data-qty-increase]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const id = btn.dataset.qtyIncrease;
+            const cart = getCart();
+            const item = cart.find((x) => x.id === id);
+            if (!item) return;
 
-      const nextQty = (Number(item.qty) || 1) + 1;
-      updateCartQty(id, nextQty);
-      render();
+            const nextQty = (Number(item.qty) || 1) + 1;
+            btn.blur();
+            updateCartQty(id, nextQty);
+            render();
+        });
     });
-  });
+
+    document.querySelectorAll(".cart-qty-btn").forEach((btn) => {
+        btn.addEventListener("mouseup", () => {
+            btn.blur();
+        });
+    });
 }
 
 els.clearBtn.addEventListener("click", () => {
