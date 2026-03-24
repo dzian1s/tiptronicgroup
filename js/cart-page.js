@@ -76,14 +76,34 @@ function render() {
 
             <div class="cart-item__controls">
               <label class="cart-qty">
-                <span>Qty</span>
-                <input
-                  type="number"
-                  min="1"
-                  value="${Number(item.qty) || 1}"
-                  data-qty-id="${escapeHtml(item.id)}"
-                />
-              </label>
+  <span>Qty</span>
+  <div class="cart-qty-control">
+    <button
+      type="button"
+      class="cart-qty-btn"
+      data-qty-decrease="${escapeHtml(item.id)}"
+      aria-label="Decrease quantity"
+    >
+      −
+    </button>
+
+    <input
+      type="number"
+      min="1"
+      value="${Number(item.qty) || 1}"
+      data-qty-id="${escapeHtml(item.id)}"
+    />
+
+    <button
+      type="button"
+      class="cart-qty-btn"
+      data-qty-increase="${escapeHtml(item.id)}"
+      aria-label="Increase quantity"
+    >
+      +
+    </button>
+  </div>
+</label>
 
               <div class="cart-item__price">${formatPrice(item.price)}</div>
 
@@ -115,6 +135,32 @@ function bindItemEvents() {
   document.querySelectorAll("[data-qty-id]").forEach((input) => {
     input.addEventListener("change", () => {
       updateCartQty(input.dataset.qtyId, input.value);
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-qty-decrease]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.qtyDecrease;
+      const cart = getCart();
+      const item = cart.find((x) => x.id === id);
+      if (!item) return;
+
+      const nextQty = Math.max(1, (Number(item.qty) || 1) - 1);
+      updateCartQty(id, nextQty);
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-qty-increase]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.qtyIncrease;
+      const cart = getCart();
+      const item = cart.find((x) => x.id === id);
+      if (!item) return;
+
+      const nextQty = (Number(item.qty) || 1) + 1;
+      updateCartQty(id, nextQty);
       render();
     });
   });
