@@ -1,3 +1,5 @@
+import { addToCart, getCartCount, isInCart } from "./cart.js";
+
 const FALLBACK_IMAGE = "../assets/images/Noimageyet.png";
 const CATALOG_URL = "../data/catalog.json";
 
@@ -15,17 +17,23 @@ const state = {
 };
 
 const els = {
-  grid: document.getElementById("catalogGrid"),
-  state: document.getElementById("catalogState"),
-  count: document.getElementById("resultsCount"),
-  search: document.getElementById("searchInput"),
-  group: document.getElementById("groupFilter"),
-  type: document.getElementById("typeFilter"),
-  brand: document.getElementById("brandFilter"),
-  inStockOnly: document.getElementById("inStockOnly"),
-  reset: document.getElementById("resetFiltersBtn"),
-  sort: document.getElementById("sortSelect")
+    grid: document.getElementById("catalogGrid"),
+    state: document.getElementById("catalogState"),
+    count: document.getElementById("resultsCount"),
+    search: document.getElementById("searchInput"),
+    group: document.getElementById("groupFilter"),
+    type: document.getElementById("typeFilter"),
+    brand: document.getElementById("brandFilter"),
+    inStockOnly: document.getElementById("inStockOnly"),
+    cartBadge: document.getElementById("cartBadge"),
+    reset: document.getElementById("resetFiltersBtn"),
+    sort: document.getElementById("sortSelect")
 };
+
+function updateCartBadge() {
+  if (!els.cartBadge) return;
+  els.cartBadge.textContent = String(getCartCount());
+}
 
 function normalizeText(value) {
   if (value === null || value === undefined) return "";
@@ -120,8 +128,8 @@ function buildCard(item) {
       <div class="catalog-card__body">
         <div class="card-badges">
           ${badges
-            .map((badge) => `<span class="card-badge">${escapeHtml(badge)}</span>`)
-            .join("")}
+                  .map((badge) => `<span class="card-badge">${escapeHtml(badge)}</span>`)
+                  .join("")}
         </div>
 
         <h3 class="catalog-card__title">${escapeHtml(item.name || "Unnamed item")}</h3>
@@ -142,8 +150,10 @@ function buildCard(item) {
         </div>
 
         <div class="catalog-card__actions">
-          <a class="btn btn-primary" href="../#order">Request this item</a>
-          <a class="btn btn-secondary" href="../#contacts">Contact us</a>
+             <button class="btn btn-primary" type="button" data-add-to-cart="${escapeHtml(item.id)}">
+              ${isInCart(item.id) ? "Add one more" : "Add to cart"}
+         </button>
+         <a class="btn btn-secondary" href="../#contacts">Contact us</a>
         </div>
       </div>
     </article>
@@ -151,8 +161,17 @@ function buildCard(item) {
 }
 
 function renderCatalog(items) {
-  els.grid.innerHTML = items.map(buildCard).join("");
-  els.count.textContent = `${items.length} items`;
+    els.grid.innerHTML = items.map(buildCard).join("");
+    els.grid.querySelectorAll("[data-add-to-cart]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const item = state.items.find((x) => x.id === btn.dataset.addToCart);
+            if (!item) return;
+            addToCart(item);
+            updateCartBadge();
+            btn.textContent = "Add one more";
+        });
+    });
+    els.count.textContent = `${items.length} items`;
 
   const isEmpty = items.length === 0;
   els.state.hidden = !isEmpty;
@@ -370,4 +389,6 @@ async function loadCatalog() {
 }
 
 bindEvents();
+window.addEventListener("cart:updated", updateCartBadge);
+updateCartBadge();
 loadCatalog();
