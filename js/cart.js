@@ -35,12 +35,29 @@ export function getCartTotal() {
   }, 0);
 }
 
+export function getCartItemQty(id) {
+  const item = readCart().find((x) => x.id === id);
+  return item ? Number(item.qty) || 0 : 0;
+}
+
 export function addToCart(item) {
   const cart = readCart();
   const existing = cart.find((x) => x.id === item.id);
 
+  const maxQty = Math.max(0, Number(item.totalStock) || 0);
+
+  if (maxQty <= 0) {
+    return false;
+  }
+
   if (existing) {
-    existing.qty += 1;
+    const nextQty = Math.min(existing.qty + 1, maxQty);
+
+    if (nextQty === existing.qty) {
+      return false;
+    }
+
+    existing.qty = nextQty;
   } else {
     cart.push({
       id: item.id,
@@ -51,11 +68,13 @@ export function addToCart(item) {
       group: item.group || "",
       type: item.displayType || item.type || "",
       brand: item.brand || "",
-      qty: 1
+      qty: 1,
+      maxQty
     });
   }
 
   writeCart(cart);
+  return true;
 }
 
 export function removeFromCart(id) {
@@ -64,11 +83,17 @@ export function removeFromCart(id) {
 }
 
 export function updateCartQty(id, qty) {
-  const normalizedQty = Math.max(1, Number(qty) || 1);
+  const cart = readCart().map((item) => {
+    if (item.id !== id) return item;
 
-  const cart = readCart().map((item) =>
-    item.id === id ? { ...item, qty: normalizedQty } : item
-  );
+    const maxQty = Math.max(1, Number(item.maxQty) || 1);
+    const normalizedQty = Math.max(1, Math.min(Number(qty) || 1, maxQty));
+
+    return {
+      ...item,
+      qty: normalizedQty
+    };
+  });
 
   writeCart(cart);
 }

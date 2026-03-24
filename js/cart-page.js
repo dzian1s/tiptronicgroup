@@ -53,6 +53,9 @@ function render() {
   els.list.innerHTML = cart
     .map((item) => {
       const image = item.image || FALLBACK_IMAGE;
+      const maxQty = Math.max(1, Number(item.maxQty) || 1);
+      const currentQty = Number(item.qty) || 1;
+
       return `
         <article class="cart-item">
           <div class="cart-item__image-wrap">
@@ -73,37 +76,40 @@ function render() {
             <h3 class="cart-item__title">${escapeHtml(item.name)}</h3>
             <div class="cart-item__meta">Article: ${escapeHtml(item.article || "-")}</div>
             ${item.brand ? `<div class="cart-item__meta">${escapeHtml(item.brand)}</div>` : ""}
+            <div class="cart-item__meta">Available: ${maxQty}</div>
 
             <div class="cart-item__controls">
               <label class="cart-qty">
-  <span>Qty</span>
-  <div class="cart-qty-control">
-    <button
-      type="button"
-      class="cart-qty-btn"
-      data-qty-decrease="${escapeHtml(item.id)}"
-      aria-label="Decrease quantity"
-    >
-      −
-    </button>
+                <span>Qty</span>
+                <div class="cart-qty-control">
+                  <button
+                    type="button"
+                    class="cart-qty-btn"
+                    data-qty-decrease="${escapeHtml(item.id)}"
+                    aria-label="Decrease quantity"
+                  >
+                    −
+                  </button>
 
-    <input
-      type="number"
-      min="1"
-      value="${Number(item.qty) || 1}"
-      data-qty-id="${escapeHtml(item.id)}"
-    />
+                  <input
+                    type="number"
+                    min="1"
+                    max="${maxQty}"
+                    value="${currentQty}"
+                    data-qty-id="${escapeHtml(item.id)}"
+                  />
 
-    <button
-      type="button"
-      class="cart-qty-btn"
-      data-qty-increase="${escapeHtml(item.id)}"
-      aria-label="Increase quantity"
-    >
-      +
-    </button>
-  </div>
-</label>
+                  <button
+                    type="button"
+                    class="cart-qty-btn"
+                    data-qty-increase="${escapeHtml(item.id)}"
+                    aria-label="Increase quantity"
+                    ${currentQty >= maxQty ? "disabled" : ""}
+                  >
+                    +
+                  </button>
+                </div>
+              </label>
 
               <div class="cart-item__price">${formatPrice(item.price)}</div>
 
@@ -125,53 +131,56 @@ function render() {
 }
 
 function bindItemEvents() {
-    document.querySelectorAll("[data-remove-id]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-            removeFromCart(btn.dataset.removeId);
-            render();
-        });
+  document.querySelectorAll("[data-remove-id]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      removeFromCart(btn.dataset.removeId);
+      render();
     });
+  });
 
-    document.querySelectorAll("[data-qty-id]").forEach((input) => {
-        input.addEventListener("change", () => {
-            updateCartQty(input.dataset.qtyId, input.value);
-            render();
-        });
+  document.querySelectorAll("[data-qty-id]").forEach((input) => {
+    input.addEventListener("change", () => {
+      const cart = getCart();
+      const item = cart.find((x) => x.id === input.dataset.qtyId);
+      if (!item) return;
+
+      const maxQty = Math.max(1, Number(item.maxQty) || 1);
+      const nextQty = Math.max(1, Math.min(Number(input.value) || 1, maxQty));
+
+      updateCartQty(input.dataset.qtyId, nextQty);
+      render();
     });
+  });
 
-    document.querySelectorAll("[data-qty-decrease]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-            const id = btn.dataset.qtyDecrease;
-            const cart = getCart();
-            const item = cart.find((x) => x.id === id);
-            if (!item) return;
+  document.querySelectorAll("[data-qty-decrease]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.qtyDecrease;
+      const cart = getCart();
+      const item = cart.find((x) => x.id === id);
+      if (!item) return;
 
-            const nextQty = Math.max(1, (Number(item.qty) || 1) - 1);
-            btn.blur();
-            updateCartQty(id, nextQty);
-            render();
-        });
+      const nextQty = Math.max(1, (Number(item.qty) || 1) - 1);
+      btn.blur();
+      updateCartQty(id, nextQty);
+      render();
     });
+  });
 
-    document.querySelectorAll("[data-qty-increase]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-            const id = btn.dataset.qtyIncrease;
-            const cart = getCart();
-            const item = cart.find((x) => x.id === id);
-            if (!item) return;
+  document.querySelectorAll("[data-qty-increase]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.qtyIncrease;
+      const cart = getCart();
+      const item = cart.find((x) => x.id === id);
+      if (!item) return;
 
-            const nextQty = (Number(item.qty) || 1) + 1;
-            btn.blur();
-            updateCartQty(id, nextQty);
-            render();
-        });
+      const maxQty = Math.max(1, Number(item.maxQty) || 1);
+      const nextQty = Math.min((Number(item.qty) || 1) + 1, maxQty);
+
+      btn.blur();
+      updateCartQty(id, nextQty);
+      render();
     });
-
-    document.querySelectorAll(".cart-qty-btn").forEach((btn) => {
-        btn.addEventListener("mouseup", () => {
-            btn.blur();
-        });
-    });
+  });
 }
 
 els.clearBtn.addEventListener("click", () => {

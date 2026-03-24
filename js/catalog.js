@@ -1,4 +1,4 @@
-import { addToCart, getCartCount, isInCart } from "./cart.js";
+import { addToCart, getCartCount, getCartItemQty } from "./cart.js";
 
 const FALLBACK_IMAGE = "../assets/images/Noimageyet.png";
 const CATALOG_URL = "../data/catalog.json";
@@ -113,6 +113,32 @@ function buildCard(item) {
     ? `<div class="catalog-card__meta">${escapeHtml(item.brand)}</div>`
     : "";
 
+    const inCartQty = getCartItemQty(item.id);
+  const availableQty = Math.max(0, Number(item.totalStock) || 0);
+  const canAddMore = availableQty > 0 && inCartQty < availableQty;
+
+  const actionBlock =
+    availableQty > 0
+      ? `
+        <div class="catalog-card__actions">
+          <button
+            class="btn btn-primary"
+            type="button"
+            data-add-to-cart="${escapeHtml(item.id)}"
+            ${canAddMore ? "" : "disabled"}
+          >
+            ${canAddMore ? "Add to cart" : "Max in cart"}
+          </button>
+          <a class="btn btn-secondary" href="../#contacts">Contact us</a>
+        </div>
+      `
+      : `
+        <div class="catalog-card__actions">
+          <a class="btn btn-primary" href="../#contacts">Notify me</a>
+          <a class="btn btn-secondary" href="../#contacts">Request on order</a>
+        </div>
+      `;
+
   return `
     <article class="catalog-card">
       <div class="catalog-card__image-wrap">
@@ -149,13 +175,9 @@ function buildCard(item) {
           ${buildWarehouseRows(item)}
         </div>
 
-        <div class="catalog-card__actions">
-             <button class="btn btn-primary" type="button" data-add-to-cart="${escapeHtml(item.id)}">
-              ${isInCart(item.id) ? "Add one more" : "Add to cart"}
-         </button>
-         <a class="btn btn-secondary" href="../#contacts">Contact us</a>
-        </div>
-      </div>
+        ${actionBlock}
+
+     </div>
     </article>
   `;
 }
@@ -370,7 +392,7 @@ async function loadCatalog() {
   try {
     const response = await fetch(CATALOG_URL, { cache: "no-store" });
 
-    if (!response.ok) {
+ import { addToCart, getCartCount, isInCart } from "./cart.js";   if (!response.ok) {
       throw new Error(`Failed to load catalog: ${response.status}`);
     }
 
