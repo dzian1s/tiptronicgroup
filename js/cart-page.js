@@ -15,7 +15,14 @@ const els = {
   count: document.getElementById("cartCount"),
   itemsCount: document.getElementById("cartItemsCount"),
   total: document.getElementById("cartTotal"),
-  clearBtn: document.getElementById("clearCartBtn")
+  clearBtn: document.getElementById("clearCartBtn"),
+  form: document.getElementById("cartRequestForm"),
+  status: document.getElementById("cartRequestStatus"),
+  sendBtn: document.getElementById("sendCartBtn"),
+  name: document.getElementById("cartName"),
+  email: document.getElementById("cartEmail"),
+  phone: document.getElementById("cartPhone"),
+  comment: document.getElementById("cartComment")
 };
 
 function escapeHtml(value) {
@@ -33,6 +40,16 @@ function formatPrice(value) {
   return `EUR ${num.toFixed(2)}`;
 }
 
+function setStatus(message, type = "") {
+  if (!els.status) return;
+  els.status.hidden = !message;
+  els.status.textContent = message;
+  els.status.className = "cart-request-status";
+  if (type) {
+    els.status.classList.add(type === "success" ? "is-success" : "is-error");
+  }
+}
+
 function render() {
   const cart = getCart();
   const count = getCartCount();
@@ -41,6 +58,10 @@ function render() {
   els.count.textContent = `${count} item${count === 1 ? "" : "s"}`;
   els.itemsCount.textContent = String(count);
   els.total.textContent = formatPrice(total);
+
+  if (els.sendBtn) {
+    els.sendBtn.disabled = cart.length === 0;
+  }
 
   if (!cart.length) {
     els.list.innerHTML = "";
@@ -183,10 +204,77 @@ function bindItemEvents() {
   });
 }
 
-els.clearBtn.addEventListener("click", () => {
+async function submitCartRequest(event) {
+  event.preventDefault();
+
+  const cart = getCart();
+  if (!cart.length) {
+    setStatus("Your cart is empty.", "error");
+    return;
+  }
+
+  const payload = {
+    name: els.name?.value.trim() || "",
+    email: els.email?.value.trim() || "",
+    phone: els.phone?.value.trim() || "",
+    comment: els.comment?.value.trim() || "",
+    items: cart.map((item) => ({
+      id: item.id,
+      article: item.article,
+      name: item.name,
+      brand: item.brand,
+      group: item.group,
+      type: item.type,
+      qty: item.qty,
+      price: item.price
+    }))
+  };
+
+  if (!payload.name || !payload.email) {
+    setStatus("Please fill in at least name and email.", "error");
+    return;
+  }
+
+  try {
+    els.sendBtn.disabled = true;
+    els.sendBtn.textContent = "Sending...";
+    setStatus("");
+
+    const response = await fetch("/api/cart-request", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(result?.error || "Failed to send cart request.");
+    }
+
+    setStatus("Your cart request has been sent successfully.", "success");
+    clearCart();
+    render();
+
+    if (els.form) {
+      els.form.reset();
+    }
+  } catch (error) {
+    setStatus(error.message || "Failed to send cart request.", "error");
+  } finally {
+    els.sendBtn.disabled = false;
+    els.sendBtn.textContent = "Send cart request";
+  }
+}
+
+els.clearBtn?.addEventListener("click", () => {
   clearCart();
   render();
 });
+
+els.form?.addEventListener("submit", submitCartRequest);
 
 window.addEventListener("cart:updated", render);
 

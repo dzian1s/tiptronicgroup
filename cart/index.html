@@ -62,6 +62,38 @@
               <strong id="cartTotal">EUR 0.00</strong>
             </div>
 
+            <div class="cart-panel">
+  <h2>Send request</h2>
+
+  <form id="cartRequestForm" class="cart-request-form">
+    <label class="cart-form-field">
+      <span>Name</span>
+      <input id="cartName" name="name" type="text" required />
+    </label>
+
+    <label class="cart-form-field">
+      <span>Email</span>
+      <input id="cartEmail" name="email" type="email" required />
+    </label>
+
+    <label class="cart-form-field">
+      <span>Phone</span>
+      <input id="cartPhone" name="phone" type="text" />
+    </label>
+
+    <label class="cart-form-field">
+      <span>Comment</span>
+      <textarea id="cartComment" name="comment" rows="4"></textarea>
+    </label>
+
+    <button id="sendCartBtn" class="btn btn-primary" type="submit">
+      Send cart request
+    </button>
+
+    <div id="cartRequestStatus" class="cart-request-status" hidden></div>
+  </form>
+</div>
+
             <div class="cart-actions">
               <button id="clearCartBtn" class="btn btn-secondary" type="button">Clear cart</button>
               <a class="btn btn-primary" href="../#order">Contact us about this cart</a>
