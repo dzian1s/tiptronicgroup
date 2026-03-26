@@ -1,4 +1,4 @@
-import { addToCart, getCartCount, getCartItemQty } from "./cart.js";
+import { addToCart, getCartCount, getCartItemQty, getCartTotal } from "./cart.js";
 
 const FALLBACK_IMAGE = "../assets/images/Noimageyet.png";
 const CATALOG_URL = "../data/catalog.json";
@@ -26,13 +26,19 @@ const els = {
   brand: document.getElementById("brandFilter"),
   inStockOnly: document.getElementById("inStockOnly"),
   cartBadge: document.getElementById("cartBadge"),
+  cartTotalBadge: document.getElementById("cartTotalBadge"),
   reset: document.getElementById("resetFiltersBtn"),
   sort: document.getElementById("sortSelect")
 };
 
 function updateCartBadge() {
-  if (!els.cartBadge) return;
-  els.cartBadge.textContent = String(getCartCount());
+  if (els.cartBadge) {
+    els.cartBadge.textContent = String(getCartCount());
+  }
+
+  if (els.cartTotalBadge) {
+    els.cartTotalBadge.textContent = `EUR ${getCartTotal().toFixed(2)}`;
+  }
 }
 
 function normalizeText(value) {

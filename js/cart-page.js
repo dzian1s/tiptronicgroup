@@ -22,7 +22,9 @@ const els = {
   name: document.getElementById("cartName"),
   email: document.getElementById("cartEmail"),
   phone: document.getElementById("cartPhone"),
-  comment: document.getElementById("cartComment")
+  comment: document.getElementById("cartComment"),
+  headerCount: document.getElementById("cartHeaderCount"),
+  headerTotal: document.getElementById("cartHeaderTotal"),
 };
 
 function escapeHtml(value) {
@@ -58,6 +60,14 @@ function render() {
   els.count.textContent = `${count} item${count === 1 ? "" : "s"}`;
   els.itemsCount.textContent = String(count);
   els.total.textContent = formatPrice(total);
+
+if (els.headerCount) {
+  els.headerCount.textContent = String(count);
+}
+
+if (els.headerTotal) {
+  els.headerTotal.textContent = formatPrice(total);
+}
 
   if (els.sendBtn) {
     els.sendBtn.disabled = cart.length === 0;

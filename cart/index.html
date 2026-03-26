@@ -23,7 +23,23 @@
         <a href="../index.html#order">Order</a>
         <a href="../index.html#contacts">Contact</a> 
         <a href="../catalog/">Catalog</a>
-        <a href="./" aria-current="page">Cart</a>
+        <!--a href="./" aria-current="page">Cart</a-->
+        <a href="./" class="cart-pill" aria-current="page" aria-label="Open cart">
+  <span class="cart-pill__icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9" cy="20" r="1.5"></circle>
+      <circle cx="18" cy="20" r="1.5"></circle>
+      <path d="M3 4h2l2.2 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 7H7"></path>
+    </svg>
+  </span>
+
+  <span class="cart-pill__info">
+    <span class="cart-pill__title">Cart</span>
+    <span class="cart-pill__meta">
+      <span id="cartHeaderCount">0</span> items · <span id="cartHeaderTotal">EUR 0.00</span>
+    </span>
+  </span>
+</a>
       </nav>
     </div>
   </header>
