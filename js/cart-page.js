@@ -16,6 +16,7 @@ const els = {
   itemsCount: document.getElementById("cartItemsCount"),
   total: document.getElementById("cartTotal"),
   clearBtn: document.getElementById("clearCartBtn"),
+  contactBtn: document.getElementById("contactCartBtn"),
   form: document.getElementById("cartRequestForm"),
   status: document.getElementById("cartRequestStatus"),
   sendBtn: document.getElementById("sendCartBtn"),
@@ -53,17 +54,28 @@ function setStatus(message, type = "") {
 }
 
 function render() {
-  const cart = getCart();
-  const count = getCartCount();
-  const total = getCartTotal();
+    const cart = getCart();
+    const count = getCartCount();
+    const total = getCartTotal();
 
-  els.count.textContent = `${count} item${count === 1 ? "" : "s"}`;
-  els.itemsCount.textContent = String(count);
-  els.total.textContent = formatPrice(total);
+    els.count.textContent = `${count} item${count === 1 ? "" : "s"}`;
+    els.itemsCount.textContent = String(count);
+    els.total.textContent = formatPrice(total);
 
-if (els.headerCount) {
-  els.headerCount.textContent = String(count);
-}
+    const articleList = cart
+        .map((item) => item.article || "")
+        .filter(Boolean)
+        .join(", ");
+
+    const contactCartUrl = `../?articles=${encodeURIComponent(articleList)}#order`;
+
+    if (els.contactBtn) {
+        els.contactBtn.href = contactCartUrl;
+    }
+
+    if (els.headerCount) {
+        els.headerCount.textContent = String(count);
+    }
 
 if (els.headerTotal) {
   els.headerTotal.textContent = formatPrice(total);

@@ -16,6 +16,38 @@ tabs.forEach((tab) => {
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const article = params.get("article");
+  const articles = params.get("articles");
+  const valueToInsert = articles || article;
+
+  if (!valueToInsert) return;
+
+  tabs.forEach((item) => item.classList.remove("active"));
+  panels.forEach((panel) => panel.classList.remove("active"));
+
+  const nameTab = document.querySelector('.request-tab[data-tab="name"]');
+  const namePanel = document.getElementById("tab-name");
+
+  if (nameTab) {
+    nameTab.classList.add("active");
+  }
+
+  if (namePanel) {
+    namePanel.classList.add("active");
+  }
+
+  const form = document.getElementById("partNameForm");
+  const requiredPartsInput = form?.querySelector('input[name="requiredParts"]');
+
+  if (requiredPartsInput) {
+    requiredPartsInput.value = valueToInsert;
+    requiredPartsInput.dispatchEvent(new Event("input", { bubbles: true }));
+    requiredPartsInput.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const article = params.get("article");
 
   if (!article) return;
 
