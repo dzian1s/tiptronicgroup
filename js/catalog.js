@@ -118,27 +118,29 @@ function buildCard(item) {
   const availableQty = Math.max(0, Number(item.totalStock) || 0);
   const canAddMore = availableQty > 0 && inCartQty < availableQty;
 
-  const actionBlock =
-    availableQty > 0
-      ? `
-        <div class="catalog-card__actions">
-          <button
-            class="btn btn-primary"
-            type="button"
-            data-add-to-cart="${escapeHtml(item.id)}"
-            ${canAddMore ? "" : "disabled"}
-          >
-            ${canAddMore ? "Add to cart" : "Max in cart"}
-          </button>
-          <a class="btn btn-secondary" href="../#contacts">Contact us</a>
-        </div>
-      `
-      : `
-        <div class="catalog-card__actions">
-          <a class="btn btn-primary" href="../#contacts">Notify me</a>
-          <a class="btn btn-secondary" href="../#contacts">Request on order</a>
-        </div>
-      `;
+const articleParam = encodeURIComponent(item.article || item.name || "");
+
+const actionBlock =
+  availableQty > 0
+    ? `
+      <div class="catalog-card__actions">
+        <button
+          class="btn btn-primary"
+          type="button"
+          data-add-to-cart="${escapeHtml(item.id)}"
+          ${canAddMore ? "" : "disabled"}
+        >
+          ${canAddMore ? "Add to cart" : "Max in cart"}
+        </button>
+        <a class="btn btn-secondary" href="../?article=${articleParam}#order">Contact us</a>
+      </div>
+    `
+    : `
+      <div class="catalog-card__actions">
+        <a class="btn btn-primary" href="../?article=${articleParam}#order">Notify me</a>
+        <a class="btn btn-secondary" href="../?article=${articleParam}#order">Request on order</a>
+      </div>
+    `;
 
   return `
     <article class="catalog-card">
