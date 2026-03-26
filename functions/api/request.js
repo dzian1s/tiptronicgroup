@@ -4,6 +4,7 @@ export async function onRequestPost(context) {
 
     const requestType = (formData.get("requestType") || "").toString();
     const customerName = (formData.get("customerName") || "").toString();
+    const email = (formData.get("email") || "").toString().trim();
     const contact = (formData.get("contact") || "").toString();
 
     const requiredParts = (formData.get("requiredParts") || "").toString();
@@ -23,7 +24,8 @@ export async function onRequestPost(context) {
       "",
       "Customer information",
       `Name: ${customerName || "-"}`,
-      `Email or Messenger: ${contact || "-"}`,
+      `Email: ${email || "-"}`,
+      `Phone / Messenger: ${contact || "-"}`,
       "",
       "Request details",
       `Required parts: ${requiredParts || "-"}`,
@@ -76,6 +78,22 @@ export async function onRequestPost(context) {
       });
     }
 
+      if (!customerName || !email) {
+          return json(
+              { ok: false, message: "Name and email are required." },
+              400
+          );
+      }
+
+      if (!isValidEmail(email)) {
+          return json(
+              { ok: false, message: "Please enter a valid email address." },
+              400
+          );
+      }
+
+
+
     const resendResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -85,7 +103,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         from: "Tiptronic Group <onboarding@resend.dev>",
         to: ["aleg.tiptronicgroup@gmail.com"],
-        reply_to: contact || undefined,
+        reply_to: email,
         subject: `New request: ${requestType || "Part request"}`,
         text: textBody,
         html: htmlBody,
@@ -105,6 +123,54 @@ export async function onRequestPost(context) {
         500
       );
     }
+
+    const customerText = [
+  `Hello ${customerName},`,
+  "",
+  "Thank you for contacting Tiptronic Group.",
+  "We have received your request and will get back to you shortly.",
+  "",
+  `Request type: ${requestType || "-"}`,
+  "",
+  "Best regards,",
+  "Tiptronic Group"
+].join("\n");
+
+const customerHtml = `
+  <p>Hello ${escapeHtml(customerName)},</p>
+  <p>Thank you for contacting <strong>Tiptronic Group</strong>.</p>
+  <p>We have received your request and will get back to you shortly.</p>
+  <p><strong>Request type:</strong> ${escapeHtml(requestType || "-")}</p>
+  <p>Best regards,<br>Tiptronic Group</p>
+`;
+
+const customerResponse = await fetch("https://api.resend.com/emails", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${context.env.RESEND_API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    from: "Tiptronic Group <onboarding@resend.dev>",
+    to: [email],
+    subject: "We received your request | Tiptronic Group",
+    text: customerText,
+    html: customerHtml,
+  }),
+});
+
+const customerData = await customerResponse.json();
+
+if (!customerResponse.ok) {
+  return json(
+    {
+      ok: false,
+      message: customerData?.message || "Request received, but confirmation email failed.",
+      details: customerData,
+    },
+    500
+  );
+}
 
     return json({
       ok: true,
@@ -152,4 +218,8 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
 }

@@ -87,6 +87,67 @@ export async function onRequestPost(context) {
       );
     }
 
+const customerItemsText = items
+  .map((item, index) => {
+    const qty = Number(item.qty) || 0;
+    const price = Number(item.price) || 0;
+
+    return `${index + 1}. ${item.name || "Unnamed item"} — Qty: ${qty} — EUR ${price.toFixed(2)}`;
+  })
+  .join("\n");
+
+const customerText = [
+  `Hello ${name},`,
+  "",
+  "Thank you for your request to Tiptronic Group.",
+  "We have received your cart enquiry with the following items:",
+  "",
+  customerItemsText,
+  "",
+  `Comment: ${comment || "-"}`,
+  "",
+  "Our team will contact you shortly.",
+  "",
+  "Best regards,",
+  "Tiptronic Group"
+].join("\n");
+
+const customerHtml = `
+  <p>Hello ${escapeHtml(name)},</p>
+  <p>Thank you for your request to <strong>Tiptronic Group</strong>.</p>
+  <p>We have received your cart enquiry with the following items:</p>
+  <pre style="font-family: Arial, sans-serif; white-space: pre-wrap;">${escapeHtml(customerItemsText)}</pre>
+  <p><strong>Comment:</strong> ${escapeHtml(comment || "-")}</p>
+  <p>Our team will contact you shortly.</p>
+  <p>Best regards,<br>Tiptronic Group</p>
+`;
+
+const customerResponse = await fetch("https://api.resend.com/emails", {
+  method: "POST",
+  headers: {
+    "Authorization": `Bearer ${resendApiKey}`,
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    from: fromEmail,
+    to: [email],
+    subject: "We received your cart request | Tiptronic Group",
+    text: customerText,
+    html: customerHtml
+  })
+});
+
+const customerData = await customerResponse.json();
+
+if (!customerResponse.ok) {
+  return Response.json(
+    {
+      error: customerData?.message || "Request received, but confirmation email failed."
+    },
+    { status: 500 }
+  );
+}
+
     return Response.json({ ok: true });
   } catch (error) {
     return Response.json(
@@ -94,4 +155,13 @@ export async function onRequestPost(context) {
       { status: 500 }
     );
   }
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
