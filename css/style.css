@@ -828,7 +828,7 @@ select {
   gap: 12px;
   padding: 10px 16px;
   border-radius: 999px;
-  background: #ffffff;
+  background: #ffd400;
   color: #111111;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -836,7 +836,8 @@ select {
 
 .cart-pill:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
+  background: #ffcc00;
+  box-shadow: 0 14px 28px rgba(255, 212, 0, 0.35);
   color: #111111;
 }
 
@@ -844,7 +845,7 @@ select {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: #f3f3f3;
+  background: rgba(255, 255, 255, 0.35);
   display: inline-flex;
   align-items: center;
   justify-content: center;
