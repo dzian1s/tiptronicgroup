@@ -87,14 +87,21 @@ export async function onRequestPost(context) {
       );
     }
 
-const customerItemsText = items
-  .map((item, index) => {
-    const qty = Number(item.qty) || 0;
-    const price = Number(item.price) || 0;
+      const customerItemsText = items
+          .map((item, index) => {
+              const qty = Number(item.qty) || 0;
+              const price = Number(item.price) || 0;
 
-    return `${index + 1}. ${item.name || "Unnamed item"} — Qty: ${qty} — EUR ${price.toFixed(2)}`;
-  })
-  .join("\n");
+              const lineTotal = qty * price;
+              return `${index + 1}. ${item.name || "Unnamed item"} — Qty: ${qty} — Unit price: EUR ${price.toFixed(2)} — Line total: EUR ${lineTotal.toFixed(2)}`;
+          })
+          .join("\n");
+
+      const totalAmount = items.reduce((sum, item) => {
+          const qty = Number(item.qty) || 0;
+          const price = Number(item.price) || 0;
+          return sum + qty * price;
+      }, 0);
 
 const customerText = [
   `Hello ${name},`,
@@ -104,6 +111,7 @@ const customerText = [
   "",
   customerItemsText,
   "",
+  `Total amount: EUR ${totalAmount.toFixed(2)}`,
   `Comment: ${comment || "-"}`,
   "",
   "Our team will contact you shortly.",
@@ -117,6 +125,7 @@ const customerHtml = `
   <p>Thank you for your request to <strong>Tiptronic Group</strong>.</p>
   <p>We have received your cart enquiry with the following items:</p>
   <pre style="font-family: Arial, sans-serif; white-space: pre-wrap;">${escapeHtml(customerItemsText)}</pre>
+  <p><strong>Total amount:</strong> EUR ${totalAmount.toFixed(2)}</p>
   <p><strong>Comment:</strong> ${escapeHtml(comment || "-")}</p>
   <p>Our team will contact you shortly.</p>
   <p>Best regards,<br>Tiptronic Group</p>
