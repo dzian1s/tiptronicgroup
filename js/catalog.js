@@ -76,7 +76,7 @@ function stockBadgeText(item) {
 }
 
 function buildBadges(item) {
-  return [item.group, getDisplayType(item)].filter(Boolean);
+  return [item.group].filter(Boolean);
 }
 
 function resolveImageSrc(item) {
