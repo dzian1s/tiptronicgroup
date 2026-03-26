@@ -91,9 +91,10 @@ export async function onRequestPost(context) {
           .map((item, index) => {
               const qty = Number(item.qty) || 0;
               const price = Number(item.price) || 0;
-
+              const article = item.article || "-";
               const lineTotal = qty * price;
-              return `${index + 1}. ${item.name || "Unnamed item"} — Qty: ${qty} — Unit price: EUR ${price.toFixed(2)} — Line total: EUR ${lineTotal.toFixed(2)}`;
+
+              return `${index + 1}. ${item.name || "Unnamed item"} — Article: ${article} — Qty: ${qty} — Unit price: EUR ${price.toFixed(2)} — Line total: EUR ${lineTotal.toFixed(2)}`;
           })
           .join("\n");
 
