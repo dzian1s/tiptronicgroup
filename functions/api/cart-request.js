@@ -54,7 +54,7 @@ export async function onRequestPost(context) {
 
     const resendApiKey = context.env.RESEND_API_KEY;
     const toEmail = context.env.REQUEST_TO_EMAIL;
-    const fromEmail = context.env.REQUEST_FROM_EMAIL || "onboarding@resend.dev";
+    const fromEmail = context.env.REQUEST_FROM_EMAIL || "sales@mail.tiptronicgroup.com";
 
     if (!resendApiKey || !toEmail) {
       return Response.json(

@@ -101,7 +101,7 @@ export async function onRequestPost(context) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Tiptronic Group <noreply@mail.tiptronicgroup.com>",
+        from: "Tiptronic Group <sales@mail.tiptronicgroup.com>",
         to: ["aleg.tiptronicgroup@gmail.com"],
         reply_to: email,
         subject: `New request: ${requestType || "Part request"}`,
@@ -151,7 +151,7 @@ const customerResponse = await fetch("https://api.resend.com/emails", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    from: "Tiptronic Group <noreply@mail.tiptronicgroup.com>",
+    from: "Tiptronic Group <sales@mail.tiptronicgroup.com>",
     to: [email],
     subject: "We received your request | Tiptronic Group",
     text: customerText,
