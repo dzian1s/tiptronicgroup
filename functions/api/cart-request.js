@@ -112,7 +112,7 @@ const customerText = [
   "",
   customerItemsText,
   "",
-  `Total amount: EUR ${totalAmount.toFixed(2)}`,
+  `Total amount (without delivery): EUR ${totalAmount.toFixed(2)}`,
   `Comment: ${comment || "-"}`,
   "",
   "Our team will contact you shortly.",
